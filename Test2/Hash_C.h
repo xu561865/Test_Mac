@@ -10,10 +10,11 @@
 #define Hash_C_h
 
 #include "uthash.h"
+#include "Object.h"
 
 struct Hash_ST
 {
-    int _id;
+    Object * _obj;
     UT_hash_handle hh;
 };
 
@@ -25,6 +26,9 @@ public:
     
     void makeHashTable();
     void showHashTable();
+    
+    bool addHashTable(Object*);
+    bool delHashTable(Object*);
     
 private:
     Hash_ST *_hashTable;

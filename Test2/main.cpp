@@ -30,14 +30,15 @@ int main(int argc, const char * argv[]) {
     fun.getFun("name")();
 #endif
     
+#define HASHTEST
 #ifdef HASHTEST
     //test hash
     Hash_C c;
-    c.makeHashTable();
+    User *user = new User();
+    c.addHashTable(user);
     c.showHashTable();
 #endif
 
-#define MITEST
 #ifdef MITEST
     A a;
     MI_C mic;

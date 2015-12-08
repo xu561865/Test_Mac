@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F159E6E11C155C9C00D1BFAC /* MI_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F159E6E01C155C9C00D1BFAC /* MI_C.cpp */; settings = {ASSET_TAGS = (); }; };
+		F159E6E41C16C01600D1BFAC /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F159E6E31C16C01600D1BFAC /* Object.cpp */; settings = {ASSET_TAGS = (); }; };
 		F1A343C91B81B931006B628E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1A343C81B81B931006B628E /* main.cpp */; };
 		F1D6BF241C05E55300311B0E /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1D6BF201C05E55300311B0E /* json_reader.cpp */; settings = {ASSET_TAGS = (); }; };
 		F1D6BF251C05E55300311B0E /* json_value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1D6BF211C05E55300311B0E /* json_value.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -32,6 +33,8 @@
 /* Begin PBXFileReference section */
 		F159E6DF1C155C7C00D1BFAC /* MI_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MI_C.h; sourceTree = "<group>"; };
 		F159E6E01C155C9C00D1BFAC /* MI_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MI_C.cpp; path = Test2/MI_C.cpp; sourceTree = "<group>"; };
+		F159E6E31C16C01600D1BFAC /* Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Object.cpp; path = Test2/Object.cpp; sourceTree = "<group>"; };
+		F159E6E51C16C02C00D1BFAC /* Object.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Object.h; path = Test2/Object.h; sourceTree = "<group>"; };
 		F1A343C51B81B931006B628E /* Test2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Test2; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1A343C81B81B931006B628E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F1D6BF151C05E55300311B0E /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
@@ -69,6 +72,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F159E6E21C16BFD800D1BFAC /* Test_Hash */ = {
+			isa = PBXGroup;
+			children = (
+				F1F52C281C1196EF009A9F1D /* Hash_C.h */,
+				F1F52C291C11970E009A9F1D /* Hash_C.cpp */,
+				F159E6E31C16C01600D1BFAC /* Object.cpp */,
+				F159E6E51C16C02C00D1BFAC /* Object.h */,
+			);
+			name = Test_Hash;
+			sourceTree = "<group>";
+		};
 		F1A343BC1B81B931006B628E = {
 			isa = PBXGroup;
 			children = (
@@ -130,12 +144,11 @@
 		F1D6BF271C05E5C600311B0E /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F159E6E21C16BFD800D1BFAC /* Test_Hash */,
 				F1D6BF281C05E5FE00311B0E /* ClassA.cpp */,
 				F1D6BF291C05E5FE00311B0E /* ClassA.h */,
 				F1FB8DAA1C0BFAD500DDE8D8 /* Function.cpp */,
 				F1FB8DAB1C0BFAD500DDE8D8 /* Function.h */,
-				F1F52C281C1196EF009A9F1D /* Hash_C.h */,
-				F1F52C291C11970E009A9F1D /* Hash_C.cpp */,
 				F159E6DF1C155C7C00D1BFAC /* MI_C.h */,
 				F159E6E01C155C9C00D1BFAC /* MI_C.cpp */,
 			);
@@ -214,6 +227,7 @@
 				F1D6BF261C05E55300311B0E /* json_writer.cpp in Sources */,
 				F1D6BF2A1C05E5FE00311B0E /* ClassA.cpp in Sources */,
 				F1A343C91B81B931006B628E /* main.cpp in Sources */,
+				F159E6E41C16C01600D1BFAC /* Object.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

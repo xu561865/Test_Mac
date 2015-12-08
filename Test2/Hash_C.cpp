@@ -22,6 +22,7 @@ Hash_C::~Hash_C()
     {
         for(Hash_ST *head = _hashTable; head != nullptr; head = static_cast<Hash_ST*>(head->hh.next))
         {
+            delete(head->_obj);
             free(head);
         }
     }
@@ -38,8 +39,8 @@ void Hash_C::makeHashTable()
         hs = static_cast<Hash_ST*>(malloc(sizeof(Hash_ST)));
         if(hs)
         {
-            hs->_id = rand() % TEST_MAX_LEN;
-            HASH_ADD_INT(_hashTable, _id, hs);
+            //hs->_id = rand() % TEST_MAX_LEN;
+            //HASH_ADD_INT(_hashTable, _id, hs);
         }
     }
 }
@@ -48,6 +49,30 @@ void Hash_C::showHashTable()
 {
     for(Hash_ST* head = _hashTable; head != nullptr; head = static_cast<Hash_ST*>(head->hh.next))
     {
-        std::cout<<head->_id<<"  ";
+        std::cout<<"id = "<<head->_obj->getID()<<"  ";
     }
+}
+
+bool Hash_C::addHashTable(Object* obj)
+{
+    static uint32_t ID = 0;
+    
+    bool ret = false;
+    if(!obj)
+    {
+        return ret;
+    }
+    
+    Hash_ST *st = nullptr;
+    HASH_FIND_INT(_hashTable, &obj, st);
+    if(!st)
+    {
+        st = static_cast<Hash_ST*>(malloc(sizeof(Hash_ST)));
+        st->_obj = obj;
+        obj->setID(++ID);
+        
+        HASH_ADD_INT(_hashTable, _obj, st);
+    }
+    
+    return ret;
 }
