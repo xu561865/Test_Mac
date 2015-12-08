@@ -49,7 +49,7 @@ void Hash_C::showHashTable()
 {
     for(Hash_ST* head = _hashTable; head != nullptr; head = static_cast<Hash_ST*>(head->hh.next))
     {
-        std::cout<<"id = "<<head->_obj->getID()<<"  ";
+        std::cout<<"id = "<<head->_obj->getID()<<"\n";
     }
 }
 
@@ -72,6 +72,26 @@ bool Hash_C::addHashTable(Object* obj)
         obj->setID(++ID);
         
         HASH_ADD_INT(_hashTable, _obj, st);
+    }
+    
+    return ret;
+}
+
+bool Hash_C::delHashTable(Object *obj)
+{
+    bool ret = false;
+    
+    Hash_ST *st = nullptr;
+    HASH_FIND_INT(_hashTable, &obj, st);
+    if(st)
+    {
+        ret = true;
+        delete st->_obj;
+        HASH_DEL(_hashTable, st);
+    }
+    else
+    {
+        return ret;
     }
     
     return ret;

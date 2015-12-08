@@ -35,7 +35,10 @@ int main(int argc, const char * argv[]) {
     //test hash
     Hash_C c;
     User *user = new User();
+    User *user1 = new User();
     c.addHashTable(user);
+    c.addHashTable(user1);
+    //c.delHashTable(user);
     c.showHashTable();
 #endif
 
