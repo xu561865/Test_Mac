@@ -13,6 +13,7 @@
 #include "Function.h"
 #include "Hash_C.h"
 #include "MI_C.h"
+#include "AutoPool_C.h"
 
 
 int main(int argc, const char * argv[]) {    
@@ -30,7 +31,6 @@ int main(int argc, const char * argv[]) {
     fun.getFun("name")();
 #endif
     
-#define HASHTEST
 #ifdef HASHTEST
     //test hash
     Hash_C c;
@@ -46,6 +46,12 @@ int main(int argc, const char * argv[]) {
     A a;
     MI_C mic;
     mic.runFun(&a, fun_micro(C::funC));
+#endif
+    
+#define AUTOPOOL
+#ifdef AUTOPOOL
+    AutoPool_C autoPool;
+    autoPool.ReleaseObject();
 #endif
     
     std::cout << "Hello, World!\n";

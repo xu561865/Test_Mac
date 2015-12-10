@@ -1,0 +1,106 @@
+/****************************************************************************
+Copyright (c) 2010 cocos2d-x.org
+
+http://www.cocos2d-x.org
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+****************************************************************************/
+
+#ifndef __CCOBJECT_H__
+#define __CCOBJECT_H__
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdarg.h>
+
+#define CC_SAFE_RELEASE(p)            do { if(p) { (p)->release(); } } while(0)
+#define CC_SAFE_DELETE(p)            do { if(p) { delete (p); (p) = 0; } } while(0)
+#define CC_BREAK_IF(cond)            if(cond) break
+
+static const int kMaxLogLen = 16*1024;
+
+
+void CCLog(const char * pszFormat, ...);
+
+#define CCAssert(cond, msg)                     \
+do {                                            \
+    if (!(cond))                                \
+    {                                           \
+        if (strlen(msg))                        \
+            CCLog("Assert failed: %s", msg);    \
+        assert(cond);                           \
+    }                                           \
+} while (0)
+
+/**
+ * @addtogroup base_nodes
+ * @{
+ */
+
+class CCZone;
+class CCObject;
+
+/**
+ * @js NA
+ * @lua NA
+ */
+class CCCopying
+{
+public:
+    virtual CCObject* copyWithZone(CCZone* pZone);
+};
+
+/**
+ * @js NA
+ */
+class CCObject : public CCCopying
+{
+public:
+    // object id, CCScriptSupport need public m_uID
+    unsigned int        m_uID;
+    // Lua reference id
+    int                 m_nLuaID;
+protected:
+    // count of references
+    unsigned int        m_uReference;
+    // count of autorelease
+    unsigned int        m_uAutoReleaseCount;
+public:
+    CCObject(void);
+    /**
+     *  @lua NA
+     */
+    virtual ~CCObject(void);
+    
+    void release(void);
+    void retain(void);
+    CCObject* autorelease(void);
+    CCObject* copy(void);
+    bool isSingleReference(void) const;
+    unsigned int retainCount(void) const;
+    virtual bool isEqual(const CCObject* pObject);
+    
+    friend class CCAutoreleasePool;
+};
+
+// end of base_nodes group
+/// @}
+
+
+#endif // __CCOBJECT_H__
