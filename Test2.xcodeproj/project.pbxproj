@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F151DFC11C215AF70057B769 /* tinyxml2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F151DFBF1C215AF70057B769 /* tinyxml2.cpp */; settings = {ASSET_TAGS = (); }; };
+		F151DFC51C215C080057B769 /* Xml_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F151DFC41C215C080057B769 /* Xml_C.cpp */; settings = {ASSET_TAGS = (); }; };
 		F159E6E11C155C9C00D1BFAC /* MI_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F159E6E01C155C9C00D1BFAC /* MI_C.cpp */; settings = {ASSET_TAGS = (); }; };
 		F159E6E41C16C01600D1BFAC /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F159E6E31C16C01600D1BFAC /* Object.cpp */; settings = {ASSET_TAGS = (); }; };
 		F182CCAB1C196DF000D5BC53 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F182CCA31C196DF000D5BC53 /* CCArray.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -37,6 +39,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F151DFBF1C215AF70057B769 /* tinyxml2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml2.cpp; path = tinyxml2/tinyxml2.cpp; sourceTree = "<group>"; };
+		F151DFC01C215AF70057B769 /* tinyxml2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml2.h; path = tinyxml2/tinyxml2.h; sourceTree = "<group>"; };
+		F151DFC31C215BF60057B769 /* Xml_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Xml_C.h; path = Test2/Xml_C.h; sourceTree = "<group>"; };
+		F151DFC41C215C080057B769 /* Xml_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Xml_C.cpp; path = Test2/Xml_C.cpp; sourceTree = "<group>"; };
 		F159E6DF1C155C7C00D1BFAC /* MI_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MI_C.h; sourceTree = "<group>"; };
 		F159E6E01C155C9C00D1BFAC /* MI_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MI_C.cpp; path = Test2/MI_C.cpp; sourceTree = "<group>"; };
 		F159E6E31C16C01600D1BFAC /* Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Object.cpp; path = Test2/Object.cpp; sourceTree = "<group>"; };
@@ -90,6 +96,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F151DFBE1C215AD50057B769 /* tinyxml2 */ = {
+			isa = PBXGroup;
+			children = (
+				F151DFBF1C215AF70057B769 /* tinyxml2.cpp */,
+				F151DFC01C215AF70057B769 /* tinyxml2.h */,
+			);
+			name = tinyxml2;
+			sourceTree = "<group>";
+		};
+		F151DFC21C215BAC0057B769 /* Test_Xml */ = {
+			isa = PBXGroup;
+			children = (
+				F151DFC31C215BF60057B769 /* Xml_C.h */,
+				F151DFC41C215C080057B769 /* Xml_C.cpp */,
+			);
+			name = Test_Xml;
+			sourceTree = "<group>";
+		};
 		F159E6E21C16BFD800D1BFAC /* Test_Hash */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +154,7 @@
 		F1A343BC1B81B931006B628E = {
 			isa = PBXGroup;
 			children = (
+				F151DFBE1C215AD50057B769 /* tinyxml2 */,
 				F182CCA21C196DD000D5BC53 /* AutoreleasePool */,
 				F1F52C261C119657009A9F1D /* Hash */,
 				F1D6BF271C05E5C600311B0E /* Classes */,
@@ -189,6 +214,7 @@
 		F1D6BF271C05E5C600311B0E /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F151DFC21C215BAC0057B769 /* Test_Xml */,
 				F182CCAF1C196E0700D5BC53 /* Test_AutoReleasePool */,
 				F159E6E21C16BFD800D1BFAC /* Test_Hash */,
 				F1D6BF281C05E5FE00311B0E /* ClassA.cpp */,
@@ -269,6 +295,7 @@
 				F182CCB51C19747400D5BC53 /* ccCArray.cpp in Sources */,
 				F182CCAB1C196DF000D5BC53 /* CCArray.cpp in Sources */,
 				F159E6E11C155C9C00D1BFAC /* MI_C.cpp in Sources */,
+				F151DFC11C215AF70057B769 /* tinyxml2.cpp in Sources */,
 				F1FB8DAC1C0BFAD500DDE8D8 /* Function.cpp in Sources */,
 				F182CCB21C196EAA00D5BC53 /* AutoPool_C.cpp in Sources */,
 				F1D6BF251C05E55300311B0E /* json_value.cpp in Sources */,
@@ -280,6 +307,7 @@
 				F1D6BF2A1C05E5FE00311B0E /* ClassA.cpp in Sources */,
 				F1A343C91B81B931006B628E /* main.cpp in Sources */,
 				F159E6E41C16C01600D1BFAC /* Object.cpp in Sources */,
+				F151DFC51C215C080057B769 /* Xml_C.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
