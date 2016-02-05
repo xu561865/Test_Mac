@@ -39,8 +39,8 @@ void Hash_C::makeHashTable()
         hs = static_cast<Hash_ST*>(malloc(sizeof(Hash_ST)));
         if(hs)
         {
-            //hs->_id = rand() % TEST_MAX_LEN;
-            //HASH_ADD_INT(_hashTable, _id, hs);
+//            hs->_id = rand() % TEST_MAX_LEN;
+//            HASH_ADD_INT(_hashTable, _id, hs);
         }
     }
 }

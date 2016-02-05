@@ -14,9 +14,37 @@
 #include "Hash_C.h"
 #include "MI_C.h"
 #include "AutoPool_C.h"
+#include "CString_C.h"
 
+class TTE
+{
+public:
+    TTE(int)
+    {
+        std::cout<<"TTE"<<std::endl;
+    }
+    
+    explicit TTE(TTE* pT)
+    {
+        
+    }
+};
 
-int main(int argc, const char * argv[]) {    
+class TTEC : public TTE
+{
+public:
+    
+    TTEC() : TTE(1)
+    {
+        std::cout<<"TTEC"<<std::endl;
+    };
+};
+
+int main(int argc, const char * argv[]) {
+    TTEC e;
+    TTE e1(0);
+    TTE e2 = e1;
+    
 #ifdef T1
     ClassA a;
     Json::Value val = a.translateJson(std::string("aabbcc"));
@@ -48,10 +76,17 @@ int main(int argc, const char * argv[]) {
     mic.runFun(&a, fun_micro(C::funC));
 #endif
     
-#define AUTOPOOL
 #ifdef AUTOPOOL
     AutoPool_C autoPool;
     autoPool.ReleaseObject();
+#endif
+    
+#define STREAM
+#ifdef STREAM
+    CString_C strc;
+    strc.test_CString();
+    
+    
 #endif
     
     std::cout << "Hello, World!\n";
