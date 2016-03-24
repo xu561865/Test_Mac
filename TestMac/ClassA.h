@@ -12,7 +12,14 @@
 #include <string>
 #include "json.h"
 
-class ClassA
+class Base
+{
+public:
+    virtual void print() = 0;
+    void run(char *);
+};
+
+class ClassA : public Base
 {
 public:
     ClassA();
@@ -21,6 +28,9 @@ public:
     operator const char* ();
     void run(char*);
     Json::Value translateJson(const std::string &);
+    
+    virtual void print() override;
+    void print(int, ...);
     
 private:
     char* _str;

@@ -96,7 +96,7 @@ do {                                                                            
   unsigned _hf_bkt,_hf_hashv;                                                    \
   out=NULL;                                                                      \
   if (head) {                                                                    \
-     HASH_FCN(keyptr,keylen, (head)->hh.tbl->num_buckets, _hf_hashv, _hf_bkt);   \
+     HASH_JEN(keyptr,keylen, (head)->hh.tbl->num_buckets, _hf_hashv, _hf_bkt);   \
      if (HASH_BLOOM_TEST((head)->hh.tbl, _hf_hashv)) {                           \
        HASH_FIND_IN_BKT((head)->hh.tbl, hh, (head)->hh.tbl->buckets[ _hf_bkt ],  \
                         keyptr,keylen,out);                                      \
@@ -187,7 +187,7 @@ do {                                                                            
  }                                                                               \
  (head)->hh.tbl->num_items++;                                                    \
  (add)->hh.tbl = (head)->hh.tbl;                                                 \
- HASH_FCN(keyptr,keylen_in, (head)->hh.tbl->num_buckets,                         \
+ HASH_JEN(keyptr,keylen_in, (head)->hh.tbl->num_buckets,                         \
          (add)->hh.hashv, _ha_bkt);                                              \
  HASH_ADD_TO_BKT((head)->hh.tbl->buckets[_ha_bkt],&(add)->hh);                   \
  HASH_BLOOM_ADD((head)->hh.tbl,(add)->hh.hashv);                                 \
@@ -342,13 +342,6 @@ do {                                                                            
 } while (0)
 #else 
 #define HASH_EMIT_KEY(hh,head,keyptr,fieldlen)                    
-#endif
-
-/* default to Jenkin's hash unless overridden e.g. DHASH_FUNCTION=HASH_SAX */
-#ifdef HASH_FUNCTION 
-#define HASH_FCN HASH_FUNCTION
-#else
-#define HASH_FCN HASH_JEN
 #endif
 
 /* The Bernstein hash function, used in Perl prior to v5.6 */
