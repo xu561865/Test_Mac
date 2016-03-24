@@ -28,6 +28,11 @@
 		F1B217891CA46350009CE482 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2177D1CA46350009CE482 /* Object.cpp */; };
 		F1B2178A1CA46350009CE482 /* Sqlite3_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2177F1CA46350009CE482 /* Sqlite3_C.cpp */; };
 		F1B2178B1CA46350009CE482 /* Xml_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217811CA46350009CE482 /* Xml_C.cpp */; };
+		F1B217A01CA46673009CE482 /* ByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217961CA46673009CE482 /* ByteBuffer.cpp */; };
+		F1B217A11CA46673009CE482 /* message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217981CA46673009CE482 /* message.cpp */; };
+		F1B217A21CA46673009CE482 /* SocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2179A1CA46673009CE482 /* SocketClient.cpp */; };
+		F1B217A31CA46673009CE482 /* SocketManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2179C1CA46673009CE482 /* SocketManager.cpp */; };
+		F1B217A41CA46673009CE482 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2179E1CA46673009CE482 /* Util.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -96,6 +101,16 @@
 		F1B217801CA46350009CE482 /* Sqlite3_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sqlite3_C.h; sourceTree = "<group>"; };
 		F1B217811CA46350009CE482 /* Xml_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Xml_C.cpp; sourceTree = "<group>"; };
 		F1B217821CA46350009CE482 /* Xml_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xml_C.h; sourceTree = "<group>"; };
+		F1B217961CA46673009CE482 /* ByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteBuffer.cpp; sourceTree = "<group>"; };
+		F1B217971CA46673009CE482 /* ByteBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteBuffer.h; sourceTree = "<group>"; };
+		F1B217981CA46673009CE482 /* message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = message.cpp; sourceTree = "<group>"; };
+		F1B217991CA46673009CE482 /* message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = message.h; sourceTree = "<group>"; };
+		F1B2179A1CA46673009CE482 /* SocketClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketClient.cpp; sourceTree = "<group>"; };
+		F1B2179B1CA46673009CE482 /* SocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketClient.h; sourceTree = "<group>"; };
+		F1B2179C1CA46673009CE482 /* SocketManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketManager.cpp; sourceTree = "<group>"; };
+		F1B2179D1CA46673009CE482 /* SocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketManager.h; sourceTree = "<group>"; };
+		F1B2179E1CA46673009CE482 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
+		F1B2179F1CA46673009CE482 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +127,7 @@
 		F1B217241CA462A3009CE482 = {
 			isa = PBXGroup;
 			children = (
+				F1B217951CA46673009CE482 /* network */,
 				F1B2173D1CA46337009CE482 /* autoreleasePool */,
 				F1B217481CA46337009CE482 /* hash */,
 				F1B2174B1CA46337009CE482 /* jsoncpp */,
@@ -320,6 +336,23 @@
 			name = Test_Xml;
 			sourceTree = "<group>";
 		};
+		F1B217951CA46673009CE482 /* network */ = {
+			isa = PBXGroup;
+			children = (
+				F1B217961CA46673009CE482 /* ByteBuffer.cpp */,
+				F1B217971CA46673009CE482 /* ByteBuffer.h */,
+				F1B217981CA46673009CE482 /* message.cpp */,
+				F1B217991CA46673009CE482 /* message.h */,
+				F1B2179A1CA46673009CE482 /* SocketClient.cpp */,
+				F1B2179B1CA46673009CE482 /* SocketClient.h */,
+				F1B2179C1CA46673009CE482 /* SocketManager.cpp */,
+				F1B2179D1CA46673009CE482 /* SocketManager.h */,
+				F1B2179E1CA46673009CE482 /* Util.cpp */,
+				F1B2179F1CA46673009CE482 /* Util.h */,
+			);
+			path = network;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -378,9 +411,12 @@
 			files = (
 				F1B217701CA46337009CE482 /* tinyxml2.cpp in Sources */,
 				F1B217311CA462A3009CE482 /* main.cpp in Sources */,
+				F1B217A11CA46673009CE482 /* message.cpp in Sources */,
+				F1B217A41CA46673009CE482 /* Util.cpp in Sources */,
 				F1B2176D1CA46337009CE482 /* json_writer.cpp in Sources */,
 				F1B217861CA46350009CE482 /* Function.cpp in Sources */,
 				F1B217681CA46337009CE482 /* ccCArray.cpp in Sources */,
+				F1B217A01CA46673009CE482 /* ByteBuffer.cpp in Sources */,
 				F1B2176B1CA46337009CE482 /* json_reader.cpp in Sources */,
 				F1B217661CA46337009CE482 /* CCArray.cpp in Sources */,
 				F1B217871CA46350009CE482 /* Hash_C.cpp in Sources */,
@@ -391,9 +427,11 @@
 				F1B217891CA46350009CE482 /* Object.cpp in Sources */,
 				F1B2178A1CA46350009CE482 /* Sqlite3_C.cpp in Sources */,
 				F1B2176C1CA46337009CE482 /* json_value.cpp in Sources */,
+				F1B217A21CA46673009CE482 /* SocketClient.cpp in Sources */,
 				F1B217831CA46350009CE482 /* AutoPool_C.cpp in Sources */,
 				F1B217691CA46337009CE482 /* CCObject.cpp in Sources */,
 				F1B2176A1CA46337009CE482 /* CCZone.cpp in Sources */,
+				F1B217A31CA46673009CE482 /* SocketManager.cpp in Sources */,
 				F1B2178B1CA46350009CE482 /* Xml_C.cpp in Sources */,
 				F1B2176E1CA46337009CE482 /* sqlite3.c in Sources */,
 				F1B217851CA46350009CE482 /* CString.cpp in Sources */,
