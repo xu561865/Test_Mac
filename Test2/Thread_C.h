@@ -9,5 +9,10 @@
 #ifndef Thread_C_h
 #define Thread_C_h
 
+class Thread_C
+{
+public:
+    void testThread();
+};
 
 #endif /* Thread_C_h */

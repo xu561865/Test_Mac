@@ -15,6 +15,7 @@
 #include "MI_C.h"
 #include "AutoPool_C.h"
 #include "CString_C.h"
+#include "Thread_C.h"
 
 class TTE
 {
@@ -41,11 +42,13 @@ public:
 };
 
 int main(int argc, const char * argv[]) {
-    TTEC e;
-    TTE e1(0);
-    TTE e2 = e1;
     
-#define T1
+#define THREAD
+#ifdef THREAD
+    Thread_C threadC;
+    threadC.testThread();
+#endif
+    
 #ifdef T1
     ClassA a;
     Json::Value val = a.translateJson(std::string("aabbcc"));

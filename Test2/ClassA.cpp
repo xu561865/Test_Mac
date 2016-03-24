@@ -8,6 +8,12 @@
 
 #include "ClassA.h"
 #include "json.h"
+#include <cstdio>
+
+void Base::run(char *str)
+{
+    printf("Base's run \n");
+}
 
 ClassA::ClassA()
 {
@@ -26,7 +32,7 @@ ClassA::operator const char *()
 
 void ClassA::run(char * p)
 {
-    
+    printf("ClassA's run \n");
 }
 
 Json::Value ClassA::translateJson(const std::string & str)
@@ -36,4 +42,31 @@ Json::Value ClassA::translateJson(const std::string & str)
     reader.parse(str, value);
     
     return value;
+}
+
+void ClassA::print()
+{
+    printf("ClassA's print \n");
+}
+
+void ClassA::print(int i, ...)
+{
+    va_list params;
+    va_start(params, i);
+    
+    while(1)
+    {
+        int j = va_arg(params, int);
+        if(j)
+        {
+            printf("%d \n", j);
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    
+    va_end(params);
 }
