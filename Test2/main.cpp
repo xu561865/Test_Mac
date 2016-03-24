@@ -45,11 +45,19 @@ int main(int argc, const char * argv[]) {
     TTE e1(0);
     TTE e2 = e1;
     
+#define T1
 #ifdef T1
     ClassA a;
     Json::Value val = a.translateJson(std::string("aabbcc"));
     Json::Value va;
     va = val;
+    
+    Base *pA = &a;
+    pA->print();
+    pA->run("aaa");
+    
+    a.print(1, 2, 3, 4);
+    
 #endif
     
 #ifdef FUN1
@@ -81,13 +89,13 @@ int main(int argc, const char * argv[]) {
     autoPool.ReleaseObject();
 #endif
     
-#define STREAM
 #ifdef STREAM
     CString_C strc;
     strc.test_CString();
     
-    
 #endif
+    
+    
     
     std::cout << "Hello, World!\n";
     return 0;
