@@ -15,6 +15,7 @@
 #include "MI_C.h"
 #include "AutoPool_C.h"
 #include "CString_C.h"
+#include <math.h>
 
 class TTE
 {
@@ -40,7 +41,34 @@ public:
     };
 };
 
+int executeNum()
+{
+    int begin = 0;
+    int iNum = 0;
+    
+    while (begin < 10) {
+        long r = random() * 10;
+        
+        if(r <= 5)
+        {
+            begin = 0;
+        }
+        else
+        {
+            begin++;
+        }
+    }
+    
+    return iNum;
+}
+
 int main(int argc, const char * argv[]) {
+    
+    int num = executeNum();
+    
+    CCLog("%d", num);
+    
+    
     TTEC e;
     TTE e1(0);
     TTE e2 = e1;
