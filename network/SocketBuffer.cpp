@@ -1,11 +1,14 @@
 #include "ByteBuffer.h"
-#include "Util.h"
 #include "SocketClient.h"
+#include <assert.h>
 
+#define CC_SAFE_DELETE(p)            do { if(p) { delete (p); (p) = 0; } } while(0)
+#define CC_SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = 0; } } while(0)
+#define ASSERT(e) assert(e)
 
 ByteBuffer::ByteBuffer(int capacity)
 {
-//    M_ASSERT(capacity > 0);
+    ASSERT(capacity > 0);
     
 	buffer = new char[capacity];
     
@@ -16,7 +19,7 @@ ByteBuffer::ByteBuffer(int capacity)
 
 ByteBuffer::ByteBuffer(char* data, int offset, int size)
 {
-//    M_ASSERT(data && (size > 0));
+    ASSERT(data && (size > 0));
     
 	buffer = new char[size];
     memcpy(buffer, data + offset, size);
@@ -28,7 +31,7 @@ ByteBuffer::ByteBuffer(char* data, int offset, int size)
 
 ByteBuffer::~ByteBuffer()
 {
-//	CC_SAFE_DELETE_ARRAY( buffer);
+	CC_SAFE_DELETE_ARRAY( buffer);
 }
 
 int ByteBuffer::remaining()
@@ -38,7 +41,7 @@ int ByteBuffer::remaining()
 
 void ByteBuffer::put(const char* data,int offset,int len)
 {
-//    M_ASSERT(data && len > 0);
+    ASSERT(data && len > 0);
     
 	if(position + len > capacity)
     {
@@ -66,7 +69,7 @@ void ByteBuffer::putBoolean(bool b)
     position+=1;
 }
 
-void ByteBuffer::putByte(byte n)
+void ByteBuffer::putByte(signed char n)
 {
 	if(position + 1 > capacity)
     {
@@ -187,7 +190,7 @@ void ByteBuffer::putUTF(const std::string& str)
 	putUTF(str.c_str());
 }
 
-void ByteBuffer::putArray(const std::vector<byte>& a)
+void ByteBuffer::putArray(const std::vector<signed char>& a)
 {
 	putInt(a.size());
 	for(int i = 0;i < a.size(); ++i)
@@ -300,7 +303,7 @@ char* ByteBuffer::toByteArray()
 	return tmp;
 }
 
-byte ByteBuffer::getByte()
+signed char ByteBuffer::getByte()
 {
 	if(position + 1 > limit)
     {
@@ -320,7 +323,7 @@ bool ByteBuffer::getBoolean()
 	return buffer[position++]!=0;
 }
 
-void ByteBuffer::getAsBytes(byte* bytes)
+void ByteBuffer::getAsBytes(signed char* bytes)
 {
     for(int i = 0 ; i < 4 ; i++)
     {
@@ -396,7 +399,7 @@ long long ByteBuffer::getLong()
     return n;
 }
 
-void ByteBuffer::getArray(std::vector<byte>& a)
+void ByteBuffer::getArray(std::vector<signed char>& a)
 {
     int size = getInt();
     a.resize(size);
@@ -452,7 +455,7 @@ void ByteBuffer::getArray(std::vector<std::string>& a)
     getArray(a, size);
 }
 
-void ByteBuffer::getArray(std::vector<byte>& a, int size)
+void ByteBuffer::getArray(std::vector<signed char>& a, int size)
 {
     a.resize(size);
     for(int i = 0; i < size; ++i)
@@ -523,7 +526,7 @@ void ByteBuffer::get(char* bytes, int offset, int len)
 	position += len;
 }
 
-int readIntFromBuffer(byte* buffer, int position)
+int readIntFromBuffer(signed char* buffer, int position)
 {
     int rt = 0;
     for(int i = 0; i < 4; i++)
@@ -537,7 +540,7 @@ int readIntFromBuffer(byte* buffer, int position)
 int ByteBuffer::getLength(int offset)
 {
     int lengthPos = position + offset;
-    byte* pos = new byte[4];
+    signed char* pos = new signed char[4];
     for(int i = 0; i < 4 ; i++)
     {
         pos[i] = buffer[lengthPos+i];

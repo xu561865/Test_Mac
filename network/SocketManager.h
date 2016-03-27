@@ -6,14 +6,14 @@
 #include "SocketClient.h"
 #include "Json.h"
 
+USING_NS_CC;
 
 class SocketManager
 {
 public:
     static SocketManager* getInstance();
     void startSocket();
-    void sendMessage(const char* data,int commandId);
-    void sendMessage(Json::Value, int commandId);
+
     void sendMessage(std::string);
     
 private:

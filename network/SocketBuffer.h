@@ -1,7 +1,7 @@
 #ifndef BYTE_BUFFER_H
 #define BYTE_BUFFER_H
-
-#include "Util.h"
+#include <string>
+#include <vector>
 
 int readIntFromBuffer(char* buffer,int position);
 
@@ -27,14 +27,14 @@ public:
 	void put(const char* bytes,int offset,int len);
 	void put(int n);
 	void putBoolean(bool b);
-	void putByte(byte b);
+	void putByte(signed char b);
 	void putShort(short n);
 	void putFloat(float n);
 	void putInt(int n);
 	void putLong(long long n);
 	void putUTF(const char* str);
     void putUTF(const std::string& str);
-    void putArray(const std::vector<byte>& a);
+    void putArray(const std::vector<signed char>& a);
     void putArray(const std::vector<bool>& a);
     void putArray(const std::vector<short>& a);
     void putArray(const std::vector<int>& a);
@@ -42,7 +42,7 @@ public:
     void putArray(const std::vector<std::string>& a);
     
     //get
-    byte getByte();
+    signed char getByte();
     bool getBoolean();
     int getInt();
     float getFloat();
@@ -50,13 +50,13 @@ public:
     long long getLong();
     void get(char* bytes,int size);
     void get(char* bytes,int offset,int len);
-    void getArray(std::vector<byte>& a);
+    void getArray(std::vector<signed char>& a);
     void getArray(std::vector<bool>& a);
     void getArray(std::vector<short>& a);
     void getArray(std::vector<int>& a);
     void getArray(std::vector<long long>& a);
     void getArray(std::vector<std::string>& a);
-	void getArray(std::vector<byte>& a,int len);
+	void getArray(std::vector<signed char>& a,int len);
 	void getArray(std::vector<bool>& a,int len);
 	void getArray(std::vector<short>& a,int len);
 	void getArray(std::vector<int>& a,int len);
@@ -81,7 +81,7 @@ public:
 	 */
     void clear();
     int getLength(int offset);
-    void getAsBytes(byte* bytes);
+    void getAsBytes(signed char* bytes);
 	
     /**
     * flip() makes a buffer ready for a new sequence of channel-write or relative get operations: It sets the limit to the current position and then sets the position to zero.

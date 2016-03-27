@@ -15,17 +15,18 @@
 #include "ByteBuffer.h"
 #include "Json.h"
 
-const int	SocketClient_WAIT_CONNECT = 0;
-const int	SocketClient_OK = 1;
-const int	SocketClient_DESTROY = 2;
+const int	SOCKET_CLIENT_WAIT_CONNECT = 0;
+const int	SOCKET_CLIENT_OK = 1;
+const int	SOCKET_CLIENT_DESTROY = 2;
 
 
 class Message;
+
 class NewMessage;
 
 class SocketClient
 {
-public:
+private:
 	int m_hSocket;
 
 	char m_serverId;
@@ -83,15 +84,15 @@ private:
 	static void* ThreadSendMessage(void *p);
 	
 public:
-    SocketClient(std::string host, int port, byte clientId, byte serverId);
+    SocketClient(std::string host, int port, signed char clientId, signed char serverId);
 	
 	~SocketClient();
 	void start();
-	void stop(boolean b);
+	void stop(bool b);
 	
 	bool isWaitConnect();
 	//发送数据
-	void sendMessage_(Message* msg,bool b);
+//	void sendMessage_(Message* msg,bool b);
     void sendMessage_(NewMessage* msg,bool b);
 	
 	NewMessage* popReceivedMessage();
@@ -99,11 +100,10 @@ public:
 	
 	void pushReceivedMessage(NewMessage* msg);
 	
-    Message* constructMessage(const char* data,int commandId);
-    NewMessage* constructMessage(Json::Value value, int commandId);
+//    Message* constructMessage(const char* data,int commandId);
     NewMessage* constructMessage(std::string);
-    static int bytesToInt(byte* data);
-    static byte* intToByte(int i);
+    static int bytesToInt(signed char* data);
+    static signed char* intToByte(int i);
     void swhlie(int commandId);
 };
 

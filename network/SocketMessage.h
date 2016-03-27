@@ -1,9 +1,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include "Util.h"
 #include "Json.h"
-
 
 //连接失败
 static const unsigned int TYPE_SELF_DEINE_MESSAGE_CONNECT_FAIL = 0xfffffA01;
@@ -24,31 +22,13 @@ static const unsigned int TYPE_SELF_DEINE_MESSAGE_ERROR_MESSAGE = 0xfffffA08;
 
 static const unsigned int TYPE_SELF_DEINE_MESSAGE_CLIENT_KILL_MESSAGE = 0xfffffA09;
 
-class Message
-{
-public:
-    char HEAD0;
-    char HEAD1;
-    char HEAD2;
-    char HEAD3;
-    char ProtoVersion;
-    
-    byte serverVersion[4];
-    byte length[4];
-    byte commandId[4];
-    
-    //消息的数据
-    char* data;
-	
-	Message();
-    ~Message();
-    
-    int datalength();
-};
 
 class NewMessage
 {
 public:
+    NewMessage(){}
+    virtual ~NewMessage(){}
+    
     void* data;
     unsigned short length;
     int datalength();
