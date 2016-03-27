@@ -23,11 +23,8 @@ SocketMessage* constructErrorMessage(int type,int errCode, std::string error)
     return msg;
 }
 
-SocketClient::SocketClient(std::string host, int port, byte clientid, byte serverid): m_iState(SOCKET_CLIENT_WAIT_CONNECT), m_cbRecvBuf(1024*60),m_cbSendBuf(1024*60)
-{   
-	m_isvalidSeq = false;
-	memset(m_sabcde, 0, 6*8);
-	
+SocketClient::SocketClient(std::string host, int port, byte clientid, byte serverid): m_iState(SOCKET_CLIENT_WAIT_CONNECT), m_cbRecvBuf(LIMIT_BUFFER), m_cbSendBuf(1024*60)
+{
     pthread_mutex_init (&m_sendqueue_mutex,NULL);
 	pthread_mutex_init(&m_thread_cond_mutex,NULL);
 	pthread_cond_init(&m_threadCond, NULL);
@@ -46,7 +43,7 @@ SocketClient::SocketClient(std::string host, int port, byte clientid, byte serve
 SocketClient::~SocketClient()
 {
     m_iState = SOCKET_CLIENT_DESTROY;
-    if( m_hSocket!=-1)
+    if( m_hSocket != -1)
     {
         close(m_hSocket);
     }
@@ -57,16 +54,16 @@ SocketClient::~SocketClient()
     
     while (!m_receivedNewMessageQueue.empty())
     {
-        SocketMessage* m = m_receivedNewMessageQueue.front();
+        SocketMessage* msg = m_receivedNewMessageQueue.front();
         m_receivedNewMessageQueue.pop();
-        SK_SAFE_DELETE(m);
+        SK_SAFE_DELETE(msg);
     }
     
     while (!m_sendNewMessageQueue.empty())
     {
-        SocketMessage* m = m_sendNewMessageQueue.front();
+        SocketMessage* msg = m_sendNewMessageQueue.front();
         m_sendNewMessageQueue.pop();
-        SK_SAFE_DELETE(m);
+        SK_SAFE_DELETE(msg);
     }
 }
 
@@ -123,7 +120,7 @@ void* SocketClient::ThreadSendMessage(void *p)
             if(sendBuff.getPosition() > 0)
             {
                 sendBuff.flip();
-                int ret = send(socket,(char *)sendBuff.getBuffer(),sendBuff.getLimit(),0);
+                int ret = send(socket, (char *)sendBuff.getBuffer(), sendBuff.getLimit(),0);
                 if(ret == -1)
                 {
                     This->m_iState = SOCKET_CLIENT_DESTROY ;
@@ -153,15 +150,16 @@ void* SocketClient::ThreadSendMessage(void *p)
                     This->m_sendNewMessageQueue.pop();
                 }
                 
-                //                printf(" sendData length: %d  %ld" ,  msg->datalength(), sizeof(char));
-                //                if(msg->datalength() + sendBuff.getPosition() > sendBuff.getLimit())
-                //                {
-                //                    This->m_iState = SocketClient_DESTROY;
-                //                    printf("send buffer is full, send thread stop!");
-                //                    MyLock lock(&This->m_sendqueue_mutex);
-                //                    This->m_receivedMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE,0,"发送缓冲器已满，您的网络环境好像出现了问题！"));
-                //                    return ((void *)0);
-                //                }
+                printf(" sendData length: %d  %ld" ,  msg->dataLength(), sizeof(char));
+                if(msg->dataLength() + sendBuff.getPosition() > sendBuff.getLimit())
+                {
+                    This->m_iState = SOCKET_CLIENT_DESTROY;
+                    printf("send buffer is full, send thread stop!");
+                    MyLock lock(&This->m_sendqueue_mutex);
+                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE,0,"发送缓冲器已满，您的网络环境好像出现了问题！"));
+                    return ((void *)0);
+                }
+                
                 sendBuff.put(msg->data(), 0, msg->dataLength());
                 sendBuff.flip();
                 
@@ -598,28 +596,4 @@ void SocketClient::pushReceivedMessage(SocketMessage* msg)
 	MyLock lock(&m_sendqueue_mutex);
 
     m_receivedNewMessageQueue.push(msg);
-}
-
-long long SocketClient::getSeq()
-{
-	if( m_isvalidSeq )
-    {
-		long long a = m_sabcde[1];
-		long long b = m_sabcde[2];
-		long long c = m_sabcde[3];
-		long long d = m_sabcde[4];
-		m_sabcde[0] = (long long)(a*2+b+c*3+d);
-		m_sabcde[1] = a^b+b|c+3+d;
-		m_sabcde[2] = b-a+d*123;
-		m_sabcde[3] = (c%123456)+a*b+(long long)sqrt((double)abs(d));
-		m_sabcde[4] = (long long)(a*1.233f+b*0.45456f+c*d+9);
-	}
-    
-	return m_sabcde[0];
-}
-
-void SocketClient::swhlie(int commandId)
-{
-    
-    
 }

@@ -69,9 +69,6 @@ private:
 	//发送队列同步锁
 	pthread_mutex_t m_sendqueue_mutex;
 	
-	bool m_isvalidSeq;
-	long long m_sabcde[6];
-	long long getSeq();
 private:
 	//连接服务器
 	bool  connectServer();

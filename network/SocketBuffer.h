@@ -20,7 +20,6 @@ public:
 	~SocketBuffer();
 	
 	int remaining();
-	//void markPosition();
 	void setIntAt(int n,int index);
     
     //put

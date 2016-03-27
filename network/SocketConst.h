@@ -7,6 +7,8 @@
 #define  Float_MAX_VALUE  3.4028235E+38F
 #define  Float_MIN_VALUE  1.4E-45F;
 
+#define LIMIT_BUFFER 1024 * 60
+
 typedef signed char byte;
 
 #define SK_SAFE_DELETE(p)           do { if(p) { delete (p); (p) = 0; } } while(0)
