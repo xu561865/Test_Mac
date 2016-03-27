@@ -12,17 +12,16 @@
 #include <queue>
 #include <pthread.h>
 #include <unistd.h>
-#include "ByteBuffer.h"
+
 #include "Json.h"
+#include "SocketBuffer.h"
 
 const int	SOCKET_CLIENT_WAIT_CONNECT = 0;
 const int	SOCKET_CLIENT_OK = 1;
 const int	SOCKET_CLIENT_DESTROY = 2;
 
 
-class Message;
-
-class NewMessage;
+class SocketMessage;
 
 class SocketClient
 {
@@ -40,16 +39,14 @@ private:
 	std::vector<int> m_iport2;//链接服务器1失败后，如果服务器2存在将连服务器2
 	
 	//发送和接收缓冲区，发送缓冲区满的时候，会断开连接，并提示信号不好
-	ByteBuffer m_cbRecvBuf;
-	ByteBuffer m_cbSendBuf;
+	SocketBuffer m_cbRecvBuf;
+	SocketBuffer m_cbSendBuf;
 	
 	//收到服务端消息
-	std::queue<Message*> m_receivedMessageQueue;
-    std::queue<NewMessage*> m_receivedNewMessageQueue;
+    std::queue<SocketMessage*> m_receivedNewMessageQueue;
 	
 	//需要发送到服务端的消息
-	std::queue<Message*> m_sendMessageQueue;
-    std::queue<NewMessage*> m_sendNewMessageQueue;
+    std::queue<SocketMessage*> m_sendNewMessageQueue;
 	
 	int m_iState;
 	
@@ -92,16 +89,14 @@ public:
 	
 	bool isWaitConnect();
 	//发送数据
-//	void sendMessage_(Message* msg,bool b);
-    void sendMessage_(NewMessage* msg,bool b);
+    void sendMessage_(SocketMessage* msg,bool b);
 	
-	NewMessage* popReceivedMessage();
-	NewMessage* pickReceivedMessage();
+	SocketMessage* popReceivedMessage();
+	SocketMessage* pickReceivedMessage();
 	
-	void pushReceivedMessage(NewMessage* msg);
+	void pushReceivedMessage(SocketMessage* msg);
 	
-//    Message* constructMessage(const char* data,int commandId);
-    NewMessage* constructMessage(std::string);
+    SocketMessage* constructMessage(std::string);
     static int bytesToInt(signed char* data);
     static signed char* intToByte(int i);
     void swhlie(int commandId);

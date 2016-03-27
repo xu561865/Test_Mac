@@ -1,27 +1,36 @@
-#include "Message.h"
-#include "SocketClient.h"
+#include "SocketConst.h"
+#include "SocketMessage.h"
 
 
-Message::Message():data(NULL)
+SocketMessage::SocketMessage() : _data(nullptr), _dataLength(0)
 {
     
 }
 
-Message::~Message()
+SocketMessage::~SocketMessage()
 {
-	if (data!=NULL)
+    if(this->_data)
     {
-		delete[] data;
-	}
+        SK_SAFE_DELETE(this->_data);
+    }
 }
 
-int Message::datalength()
+char* SocketMessage::data() const
 {
-    return SocketClient::bytesToInt(length)+13;
+    return _data;
 }
 
-
-int NewMessage::datalength()
+void SocketMessage::data(char* adata)
 {
-    return length;
+    _data = adata;
+}
+
+unsigned short SocketMessage::dataLength()
+{
+    return _dataLength;
+}
+
+void SocketMessage::dataLength(unsigned short adataLength)
+{
+    _dataLength = adataLength;
 }

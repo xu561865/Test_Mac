@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F108B6C31CA7CE8D003F0455 /* SocketBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F108B6BD1CA7CE8D003F0455 /* SocketBuffer.cpp */; };
 		F108B6C41CA7CE8D003F0455 /* SocketMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */; };
-		F108B6C51CA7CE8D003F0455 /* SocketUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F108B6C11CA7CE8D003F0455 /* SocketUtil.cpp */; };
 		F1B217311CA462A3009CE482 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217301CA462A3009CE482 /* main.cpp */; };
 		F1B217661CA46337009CE482 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2173E1CA46337009CE482 /* CCArray.cpp */; };
 		F1B217671CA46337009CE482 /* CCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217401CA46337009CE482 /* CCAutoreleasePool.cpp */; };
@@ -52,8 +51,7 @@
 		F108B6BE1CA7CE8D003F0455 /* SocketBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketBuffer.h; sourceTree = "<group>"; };
 		F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketMessage.cpp; sourceTree = "<group>"; };
 		F108B6C01CA7CE8D003F0455 /* SocketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketMessage.h; sourceTree = "<group>"; };
-		F108B6C11CA7CE8D003F0455 /* SocketUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketUtil.cpp; sourceTree = "<group>"; };
-		F108B6C21CA7CE8D003F0455 /* SocketUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketUtil.h; sourceTree = "<group>"; };
+		F108B6C21CA7CE8D003F0455 /* SocketConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketConst.h; sourceTree = "<group>"; };
 		F1B2172D1CA462A3009CE482 /* TestMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestMac; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B217301CA462A3009CE482 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F1B2173E1CA46337009CE482 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
@@ -343,8 +341,7 @@
 				F108B6BE1CA7CE8D003F0455 /* SocketBuffer.h */,
 				F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */,
 				F108B6C01CA7CE8D003F0455 /* SocketMessage.h */,
-				F108B6C11CA7CE8D003F0455 /* SocketUtil.cpp */,
-				F108B6C21CA7CE8D003F0455 /* SocketUtil.h */,
+				F108B6C21CA7CE8D003F0455 /* SocketConst.h */,
 				F1B2179A1CA46673009CE482 /* SocketClient.cpp */,
 				F1B2179B1CA46673009CE482 /* SocketClient.h */,
 				F1B2179C1CA46673009CE482 /* SocketManager.cpp */,
@@ -413,7 +410,6 @@
 				F1B217311CA462A3009CE482 /* main.cpp in Sources */,
 				F1B2176D1CA46337009CE482 /* json_writer.cpp in Sources */,
 				F1B217861CA46350009CE482 /* Function.cpp in Sources */,
-				F108B6C51CA7CE8D003F0455 /* SocketUtil.cpp in Sources */,
 				F1B217681CA46337009CE482 /* ccCArray.cpp in Sources */,
 				F1B2176B1CA46337009CE482 /* json_reader.cpp in Sources */,
 				F1B217661CA46337009CE482 /* CCArray.cpp in Sources */,

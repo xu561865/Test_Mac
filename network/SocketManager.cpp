@@ -27,7 +27,7 @@ void SocketManager::startSocket()
 
 void SocketManager::sendMessage(std::string value)
 {
-    NewMessage *msg=_socket->constructMessage(value);
+    SocketMessage *msg=_socket->constructMessage(value);
     _socket->sendMessage_(msg, false);
 }
 

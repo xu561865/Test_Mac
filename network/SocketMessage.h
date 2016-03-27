@@ -1,7 +1,5 @@
-#ifndef MESSAGE_H
-#define MESSAGE_H
-
-#include "Json.h"
+#ifndef SOCKET_MESSAGE_H
+#define SOCKET_MESSAGE_H
 
 //连接失败
 static const unsigned int TYPE_SELF_DEINE_MESSAGE_CONNECT_FAIL = 0xfffffA01;
@@ -23,18 +21,22 @@ static const unsigned int TYPE_SELF_DEINE_MESSAGE_ERROR_MESSAGE = 0xfffffA08;
 static const unsigned int TYPE_SELF_DEINE_MESSAGE_CLIENT_KILL_MESSAGE = 0xfffffA09;
 
 
-class NewMessage
+class SocketMessage
 {
 public:
-    NewMessage(){}
-    virtual ~NewMessage(){}
+    SocketMessage();
+    ~SocketMessage();
+    char* data() const;
+    void data(char*);
+    unsigned short dataLength();
+    void dataLength(unsigned short);
     
-    void* data;
-    unsigned short length;
-    int datalength();
-//    int length;
-//    Json::Value value;
+    
+private:
+    char* _data;
+    unsigned short _dataLength;
+    
 };
 
-#endif
+#endif /*SOCKET_MESSAGE_H*/
 

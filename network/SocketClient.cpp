@@ -1,16 +1,16 @@
-#include "SocketClient.h"
-#include "message.h"
 #include <errno.h>
 #include <signal.h>
-#include "CData.h"
-#include "Util.h"
-#include "cocos2d.h"
+#include <math.h>
+#include "SocketConst.h"
+#include "SocketClient.h"
+#include "SocketMessage.h"
+
 
 bool g_bcheckReceivedMessage = true;
 
-NewMessage* constructErrorMessage(int type,int errCode,string error)
+SocketMessage* constructErrorMessage(int type,int errCode, std::string error)
 {
-    NewMessage* msg = new NewMessage();
+    SocketMessage* msg = new SocketMessage();
     //	msg->type = 0;
     //	msg->type_selfdefine = type;//TYPE_SELF_DEINE_MESSAGE_CONNECT_FAIL;
     //	ByteBuffer* buf = new ByteBuffer(1024);
@@ -57,16 +57,16 @@ SocketClient::~SocketClient()
     
     while (!m_receivedNewMessageQueue.empty())
     {
-        NewMessage* m = m_receivedNewMessageQueue.front();
+        SocketMessage* m = m_receivedNewMessageQueue.front();
         m_receivedNewMessageQueue.pop();
-        CC_SAFE_RELEASE(m);
+        SK_SAFE_DELETE(m);
     }
     
     while (!m_sendNewMessageQueue.empty())
     {
-        NewMessage* m = m_sendNewMessageQueue.front();
+        SocketMessage* m = m_sendNewMessageQueue.front();
         m_sendNewMessageQueue.pop();
-        CC_SAFE_RELEASE(m);
+        SK_SAFE_DELETE(m);
     }
 }
 
@@ -100,19 +100,19 @@ void* SocketClient::ThreadSendMessage(void *p)
         else
         {
             This->m_iState = SOCKET_CLIENT_DESTROY;
-            string error("连网失败,请检查网络设置");
+            std::string error("连网失败,请检查网络设置");
             
             {
                 MyLock lock(&This->m_sendqueue_mutex);
                 
-                This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CONNECT_FAIL,errno,error));
+                This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CONNECT_FAIL, errno, error));
             }
             
             return ((void *)0);
         }
     }
     
-    ByteBuffer& sendBuff = This->m_cbSendBuf;
+    SocketBuffer& sendBuff = This->m_cbSendBuf;
     int socket = This->m_hSocket;
     
     while (This->m_iState != SOCKET_CLIENT_DESTROY)
@@ -128,10 +128,10 @@ void* SocketClient::ThreadSendMessage(void *p)
                 {
                     This->m_iState = SOCKET_CLIENT_DESTROY ;
                     
-                    string err("发送数据，网络异常！");
+                    std::string err("发送数据，网络异常！");
                     
                     MyLock lock(&This->m_sendqueue_mutex);
-                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE,errno,err));
+                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE, errno, err));
                     return ((void *)0);
                 }
                 else
@@ -143,7 +143,7 @@ void* SocketClient::ThreadSendMessage(void *p)
                 sendBuff.compact();
             }
             
-            NewMessage* msg = NULL;
+            SocketMessage* msg = NULL;
             while( This->m_iState != SOCKET_CLIENT_DESTROY && This->m_sendNewMessageQueue.size()> 0)
             {
                 {
@@ -162,16 +162,16 @@ void* SocketClient::ThreadSendMessage(void *p)
                 //                    This->m_receivedMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE,0,"发送缓冲器已满，您的网络环境好像出现了问题！"));
                 //                    return ((void *)0);
                 //                }
-                sendBuff.put(static_cast<char*>(msg->data), 0, msg->datalength());
+                sendBuff.put(msg->data(), 0, msg->dataLength());
                 sendBuff.flip();
                 
                 int ret = send(socket,(char *)sendBuff.getBuffer(),sendBuff.getLimit(),0);
                 if(ret == -1)
                 {
                     This->m_iState = SOCKET_CLIENT_DESTROY;
-                    string err("发送数据，网络异常！");
+                    std::string err("发送数据，网络异常！");
                     MyLock lock(&This->m_sendqueue_mutex);
-                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE,errno,err));
+                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE, errno, err));
                     return ((void *)0);
                 }
                 
@@ -278,7 +278,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
     
     SocketClient* This = static_cast<SocketClient*>(p) ;
     
-    ByteBuffer* recvBuff = &This->m_cbRecvBuf;
+    SocketBuffer* recvBuff = &This->m_cbRecvBuf;
     
     while (This->m_iState != SOCKET_CLIENT_DESTROY)
     {
@@ -321,9 +321,9 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                     
                     while( This->m_receivedNewMessageQueue.size()>0)
                     {
-                        NewMessage* msg = This->m_receivedNewMessageQueue.front();
+                        SocketMessage* msg = This->m_receivedNewMessageQueue.front();
                         This->m_receivedNewMessageQueue.pop();
-                        CCLog("删除消息");
+                        printf("删除消息");
                         delete msg;
                     }
                 }
@@ -352,7 +352,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                 printf(" recv data %d \n", recvBuff->remaining());
                 if(recvBuff->remaining() > 0)
                 {
-                    iRetCode = recv(This->m_hSocket,recvBuff->getBuffer()+recvBuff->getPosition(), recvBuff->remaining(),0);
+                    iRetCode = recv(This->m_hSocket, recvBuff->getBuffer()+recvBuff->getPosition(), recvBuff->remaining(), 0);
                 }
                 
                 printf(" recv data later  %d   %d \n", recvBuff->remaining(), iRetCode);
@@ -363,13 +363,13 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                     
                     while( This->m_receivedNewMessageQueue.size()>0)
                     {
-                        NewMessage* msg = This->m_receivedNewMessageQueue.front();
+                        SocketMessage* msg = This->m_receivedNewMessageQueue.front();
                         This->m_receivedNewMessageQueue.pop();
-                        CCLog("删除消息");
+                        printf("删除消息");
                         delete msg;
                     }
                     
-                    string tmp("网络连接中断！");
+                    std::string tmp("网络连接中断！");
                     return ((void *)0);
                 }
                 else if(iRetCode == 0 && recvBuff->remaining() > 0)
@@ -378,9 +378,9 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                     MyLock lock(&This->m_sendqueue_mutex);
                     while( This->m_receivedNewMessageQueue.size()>0)
                     {
-                        NewMessage* msg = This->m_receivedNewMessageQueue.front();
+                        SocketMessage* msg = This->m_receivedNewMessageQueue.front();
                         This->m_receivedNewMessageQueue.pop();
-                        CCLog("删除消息");
+                        printf("删除消息");
                         delete msg;
                     }
                     
@@ -402,19 +402,19 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                     byte low = recvBuff->getByte();
                     memcpy(pLen, &low, sizeof(char));
                     
-                    CCLog("receive message %d", messageLength);
+                    printf("receive message %d", messageLength);
                     
                     char *pstrMessage = new char(messageLength);
                     recvBuff->get(pstrMessage, 0, messageLength);
                     
-                    CCLog("message--- %s", pstrMessage);
+                    printf("message--- %s", pstrMessage);
                     
                     Json::Reader read;
                     Json::Value root;
                     read.parse(pstrMessage, root);
                     Json::Value data=root["ResRegMsg"];
                     int ret = data["ResState"].asInt();   //0: 成功  1:server error   2:已注册
-                    CCLog("%d", ret);
+                    printf("%d", ret);
                     
                     
                     int tmpOffset = 17;
@@ -425,7 +425,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                         
                         if(recvBuff->remaining()+tmpOffset >= length)
                         {
-                            NewMessage* message = new NewMessage();
+                            SocketMessage* message = new SocketMessage();
                             
                             unsigned short messageLength = 0;
                             void *pLen = &messageLength;
@@ -436,18 +436,16 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                             memcpy(static_cast<char*>(pLen) + 1, &high, sizeof(char));
                             
                             
-                            CCLog("receive message %d", messageLength);
+                            printf("receive message %d", messageLength);
                             
                             char* tmp = new char[length-3];
                             recvBuff->get(tmp,0,length-4);
                             tmp[length-4] = '\0';
-                            message->data = tmp;
+                            message->data(tmp);
                             printf("%s",tmp);
                             MyLock lock(&This->m_sendqueue_mutex);
                             
                             This->m_receivedNewMessageQueue.push(message);
-                            
-                            //                            CData::getCData()->m_dictionary->setObject(message,bytesToInt(message->commandId));
                             
                         }
                         else if(length>recvBuff->getCapacity())
@@ -458,9 +456,9 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                             
                             while( This->m_receivedNewMessageQueue.size()>0)
                             {
-                                NewMessage* msg = This->m_receivedNewMessageQueue.front();
+                                SocketMessage* msg = This->m_receivedNewMessageQueue.front();
                                 This->m_receivedNewMessageQueue.pop();
-                                CCLog("删除消息");
+                                printf("删除消息");
                                 delete msg;
                             }
                             
@@ -510,27 +508,27 @@ byte* SocketClient::intToByte(int i)
     return abyte0;
 }
 
-NewMessage* SocketClient::constructMessage(std::string value)
+SocketMessage* SocketClient::constructMessage(std::string value)
 {
-    NewMessage *msg = new NewMessage;
+    SocketMessage *msg = new SocketMessage();
     
     const char *pValue = value.c_str();
     unsigned short valueLength = strlen(pValue);
-    msg->length = valueLength + 2;
-    msg->data = new char(msg->length);
+    msg->dataLength(valueLength + 2);
+    msg->data(new char(msg->dataLength()));
     
     void *pLeng = static_cast<void*>(&valueLength);
-    memcpy(msg->data, static_cast<char*>(pLeng) + 1, sizeof(char));
-    memcpy(static_cast<char*>(msg->data) + 1, &valueLength, sizeof(char));
+    memcpy(msg->data(), static_cast<char*>(pLeng) + 1, sizeof(char));
+    memcpy(static_cast<char*>(msg->data()) + 1, &valueLength, sizeof(char));
     
-    memcpy(static_cast<char*>(msg->data) + 2, pValue, valueLength);
+    memcpy(static_cast<char*>(msg->data()) + 2, pValue, valueLength);
     
-    CCLog("messge %s", pValue);
+    printf("messge %s", pValue);
     
     return msg;
 }
 
-void SocketClient::stop(boolean b)
+void SocketClient::stop(bool b)
 {
 	m_iState = SOCKET_CLIENT_DESTROY;
 
@@ -547,7 +545,7 @@ void SocketClient::stop(boolean b)
 	pthread_join(pthread_t_send, NULL);
 }
 
-void SocketClient::sendMessage_(NewMessage* msg, bool b)
+void SocketClient::sendMessage_(SocketMessage* msg, bool b)
 {
     if(m_iState == SOCKET_CLIENT_DESTROY)
     {
@@ -568,9 +566,9 @@ void SocketClient::sendMessage_(NewMessage* msg, bool b)
 }
 
 //获取服务器包
-NewMessage* SocketClient::pickReceivedMessage()
+SocketMessage* SocketClient::pickReceivedMessage()
 {
-	NewMessage* msg = NULL;
+	SocketMessage* msg = NULL;
 	MyLock lock(&m_sendqueue_mutex);
     
     if( m_receivedNewMessageQueue.size()>0)
@@ -581,9 +579,9 @@ NewMessage* SocketClient::pickReceivedMessage()
 	return msg;
 }
 
-NewMessage* SocketClient::popReceivedMessage()
+SocketMessage* SocketClient::popReceivedMessage()
 {
-	NewMessage* msg = NULL;
+	SocketMessage* msg = NULL;
 	MyLock lock(&m_sendqueue_mutex);
     
     if( m_receivedNewMessageQueue.size()>0)
@@ -595,7 +593,7 @@ NewMessage* SocketClient::popReceivedMessage()
 	return msg;
 }
 
-void SocketClient::pushReceivedMessage(NewMessage* msg)
+void SocketClient::pushReceivedMessage(SocketMessage* msg)
 {
 	MyLock lock(&m_sendqueue_mutex);
 

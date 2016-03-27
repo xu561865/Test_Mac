@@ -2,11 +2,9 @@
 #define __client1__SocketManager__
 
 
-#include "message.h"
+#include "SocketMessage.h"
 #include "SocketClient.h"
 #include "Json.h"
-
-USING_NS_CC;
 
 class SocketManager
 {

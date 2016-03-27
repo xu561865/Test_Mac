@@ -5,7 +5,7 @@
 
 int readIntFromBuffer(char* buffer,int position);
 
-class ByteBuffer
+class SocketBuffer
 {
 	char* buffer;
 	
@@ -15,9 +15,9 @@ class ByteBuffer
 	int mark;
 public:
 	
-	ByteBuffer(int capacity);
-	ByteBuffer(char* data,int offset,int length);
-	~ByteBuffer();
+	SocketBuffer(int capacity);
+	SocketBuffer(char* data,int offset,int length);
+	~SocketBuffer();
 	
 	int remaining();
 	//void markPosition();
