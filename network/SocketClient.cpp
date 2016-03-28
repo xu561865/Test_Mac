@@ -292,7 +292,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
         aTime.tv_sec = 1;
         aTime.tv_usec = 0;
         
-        int ret = select(This->m_hSocket+1,&fdRead,NULL,NULL,&aTime);
+        int ret = select(This->m_hSocket+1, &fdRead, NULL, NULL, &aTime);
         if (ret == -1 )
         {
             if(errno == EINTR)
@@ -306,7 +306,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                 return ((void *)0);
             }
         }
-        else if(ret==0)
+        else if(ret == 0)
         {
             gettimeofday(&now, NULL);
             if( g_bcheckReceivedMessage )
@@ -317,7 +317,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                     
                     MyLock lock(&This->m_sendqueue_mutex);
                     
-                    while( This->m_receivedNewMessageQueue.size()>0)
+                    while( This->m_receivedNewMessageQueue.size() > 0)
                     {
                         SocketMessage* msg = This->m_receivedNewMessageQueue.front();
                         This->m_receivedNewMessageQueue.pop();
@@ -344,7 +344,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
         }
         else if (ret > 0)
         {
-            if (FD_ISSET(This->m_hSocket,&fdRead))
+            if (FD_ISSET(This->m_hSocket, &fdRead))
             {
                 int iRetCode = 0;
                 printf(" recv data %d \n", recvBuff->remaining());
@@ -406,15 +406,28 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                     recvBuff->get(pstrMessage, 0, messageLength);
                     
                     printf("message--- %s", pstrMessage);
+                    SocketMessage* message = new SocketMessage();
+                    message->data(pstrMessage);
+                    message->dataLength(messageLength);
                     
+                    {
+                        MyLock lock(&This->m_sendqueue_mutex);
+                        
+                        This->m_receivedNewMessageQueue.push(message);
+                    }
+                    
+                    /*
                     Json::Reader read;
                     Json::Value root;
                     read.parse(pstrMessage, root);
                     Json::Value data=root["ResRegMsg"];
                     int ret = data["ResState"].asInt();   //0: 成功  1:server error   2:已注册
                     printf("%d", ret);
+                    */
                     
                     
+                    
+                    /* old
                     int tmpOffset = 17;
                     while(recvBuff->remaining() > tmpOffset)
                     {
@@ -469,6 +482,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                             break;
                         }
                     }
+                    */
                     
                     recvBuff->compact();
                 }
