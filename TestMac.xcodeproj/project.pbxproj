@@ -9,6 +9,21 @@
 /* Begin PBXBuildFile section */
 		F108B6C31CA7CE8D003F0455 /* SocketBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F108B6BD1CA7CE8D003F0455 /* SocketBuffer.cpp */; };
 		F108B6C41CA7CE8D003F0455 /* SocketMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */; };
+		F12965D21CAAF46500923D1D /* LHttpErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965CC1CAAF46500923D1D /* LHttpErrorHandler.cpp */; };
+		F12965D31CAAF46500923D1D /* LHttpRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965CE1CAAF46500923D1D /* LHttpRequest.cpp */; };
+		F12965D41CAAF46500923D1D /* LMessageCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965D01CAAF46500923D1D /* LMessageCenter.cpp */; };
+		F12965F61CAAF68900923D1D /* mlib_thread.mm in Sources */ = {isa = PBXBuildFile; fileRef = F12965DA1CAAF68900923D1D /* mlib_thread.mm */; };
+		F12965F71CAAF68900923D1D /* mlib_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965DC1CAAF68900923D1D /* mlib_buffer.cpp */; };
+		F12965F81CAAF68900923D1D /* mlib_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965DE1CAAF68900923D1D /* mlib_event.cpp */; };
+		F12965F91CAAF68900923D1D /* mlib_exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E01CAAF68900923D1D /* mlib_exception.cpp */; };
+		F12965FA1CAAF68900923D1D /* mlib_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E31CAAF68900923D1D /* mlib_http.cpp */; };
+		F12965FB1CAAF68900923D1D /* mlib_localize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E51CAAF68900923D1D /* mlib_localize.cpp */; };
+		F12965FC1CAAF68900923D1D /* mlib_log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E71CAAF68900923D1D /* mlib_log.cpp */; };
+		F12965FD1CAAF68900923D1D /* mlib_md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E91CAAF68900923D1D /* mlib_md5.cpp */; };
+		F12965FE1CAAF68900923D1D /* mlib_shared_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965EB1CAAF68900923D1D /* mlib_shared_queue.cpp */; };
+		F12965FF1CAAF68900923D1D /* mlib_task.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965ED1CAAF68900923D1D /* mlib_task.cpp */; };
+		F12966001CAAF68900923D1D /* mlib_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F01CAAF68900923D1D /* mlib_utils.cpp */; };
+		F12966011CAAF68900923D1D /* mlib_version_number.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F21CAAF68900923D1D /* mlib_version_number.cpp */; };
 		F1B217311CA462A3009CE482 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217301CA462A3009CE482 /* main.cpp */; };
 		F1B217661CA46337009CE482 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2173E1CA46337009CE482 /* CCArray.cpp */; };
 		F1B217671CA46337009CE482 /* CCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217401CA46337009CE482 /* CCAutoreleasePool.cpp */; };
@@ -52,6 +67,40 @@
 		F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketMessage.cpp; sourceTree = "<group>"; };
 		F108B6C01CA7CE8D003F0455 /* SocketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketMessage.h; sourceTree = "<group>"; };
 		F108B6C21CA7CE8D003F0455 /* SocketConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketConst.h; sourceTree = "<group>"; };
+		F12965CC1CAAF46500923D1D /* LHttpErrorHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LHttpErrorHandler.cpp; path = NewNetWork/LHttpErrorHandler.cpp; sourceTree = "<group>"; };
+		F12965CD1CAAF46500923D1D /* LHttpErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LHttpErrorHandler.h; path = NewNetWork/LHttpErrorHandler.h; sourceTree = "<group>"; };
+		F12965CE1CAAF46500923D1D /* LHttpRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LHttpRequest.cpp; path = NewNetWork/LHttpRequest.cpp; sourceTree = "<group>"; };
+		F12965CF1CAAF46500923D1D /* LHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LHttpRequest.h; path = NewNetWork/LHttpRequest.h; sourceTree = "<group>"; };
+		F12965D01CAAF46500923D1D /* LMessageCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LMessageCenter.cpp; path = NewNetWork/LMessageCenter.cpp; sourceTree = "<group>"; };
+		F12965D11CAAF46500923D1D /* LMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LMessageCenter.h; path = NewNetWork/LMessageCenter.h; sourceTree = "<group>"; };
+		F12965D91CAAF68900923D1D /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		F12965DA1CAAF68900923D1D /* mlib_thread.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mlib_thread.mm; sourceTree = "<group>"; };
+		F12965DB1CAAF68900923D1D /* mlib_assert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_assert.h; path = mlib/mlib_assert.h; sourceTree = "<group>"; };
+		F12965DC1CAAF68900923D1D /* mlib_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_buffer.cpp; path = mlib/mlib_buffer.cpp; sourceTree = "<group>"; };
+		F12965DD1CAAF68900923D1D /* mlib_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_buffer.h; path = mlib/mlib_buffer.h; sourceTree = "<group>"; };
+		F12965DE1CAAF68900923D1D /* mlib_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_event.cpp; path = mlib/mlib_event.cpp; sourceTree = "<group>"; };
+		F12965DF1CAAF68900923D1D /* mlib_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_event.h; path = mlib/mlib_event.h; sourceTree = "<group>"; };
+		F12965E01CAAF68900923D1D /* mlib_exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_exception.cpp; path = mlib/mlib_exception.cpp; sourceTree = "<group>"; };
+		F12965E11CAAF68900923D1D /* mlib_exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_exception.h; path = mlib/mlib_exception.h; sourceTree = "<group>"; };
+		F12965E21CAAF68900923D1D /* mlib_helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_helpers.h; path = mlib/mlib_helpers.h; sourceTree = "<group>"; };
+		F12965E31CAAF68900923D1D /* mlib_http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_http.cpp; path = mlib/mlib_http.cpp; sourceTree = "<group>"; };
+		F12965E41CAAF68900923D1D /* mlib_http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_http.h; path = mlib/mlib_http.h; sourceTree = "<group>"; };
+		F12965E51CAAF68900923D1D /* mlib_localize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_localize.cpp; path = mlib/mlib_localize.cpp; sourceTree = "<group>"; };
+		F12965E61CAAF68900923D1D /* mlib_localize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_localize.h; path = mlib/mlib_localize.h; sourceTree = "<group>"; };
+		F12965E71CAAF68900923D1D /* mlib_log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_log.cpp; path = mlib/mlib_log.cpp; sourceTree = "<group>"; };
+		F12965E81CAAF68900923D1D /* mlib_log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_log.h; path = mlib/mlib_log.h; sourceTree = "<group>"; };
+		F12965E91CAAF68900923D1D /* mlib_md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_md5.cpp; path = mlib/mlib_md5.cpp; sourceTree = "<group>"; };
+		F12965EA1CAAF68900923D1D /* mlib_md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_md5.h; path = mlib/mlib_md5.h; sourceTree = "<group>"; };
+		F12965EB1CAAF68900923D1D /* mlib_shared_queue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_shared_queue.cpp; path = mlib/mlib_shared_queue.cpp; sourceTree = "<group>"; };
+		F12965EC1CAAF68900923D1D /* mlib_shared_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_shared_queue.h; path = mlib/mlib_shared_queue.h; sourceTree = "<group>"; };
+		F12965ED1CAAF68900923D1D /* mlib_task.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_task.cpp; path = mlib/mlib_task.cpp; sourceTree = "<group>"; };
+		F12965EE1CAAF68900923D1D /* mlib_task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_task.h; path = mlib/mlib_task.h; sourceTree = "<group>"; };
+		F12965EF1CAAF68900923D1D /* mlib_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_thread.h; path = mlib/mlib_thread.h; sourceTree = "<group>"; };
+		F12965F01CAAF68900923D1D /* mlib_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_utils.cpp; path = mlib/mlib_utils.cpp; sourceTree = "<group>"; };
+		F12965F11CAAF68900923D1D /* mlib_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_utils.h; path = mlib/mlib_utils.h; sourceTree = "<group>"; };
+		F12965F21CAAF68900923D1D /* mlib_version_number.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_version_number.cpp; path = mlib/mlib_version_number.cpp; sourceTree = "<group>"; };
+		F12965F31CAAF68900923D1D /* mlib_version_number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_version_number.h; path = mlib/mlib_version_number.h; sourceTree = "<group>"; };
+		F12965F41CAAF68900923D1D /* mlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib.h; path = mlib/mlib.h; sourceTree = "<group>"; };
 		F1B2172D1CA462A3009CE482 /* TestMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestMac; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B217301CA462A3009CE482 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F1B2173E1CA46337009CE482 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
@@ -122,9 +171,68 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F12965CB1CAAF44900923D1D /* NewNetWork */ = {
+			isa = PBXGroup;
+			children = (
+				F12965CC1CAAF46500923D1D /* LHttpErrorHandler.cpp */,
+				F12965CD1CAAF46500923D1D /* LHttpErrorHandler.h */,
+				F12965CE1CAAF46500923D1D /* LHttpRequest.cpp */,
+				F12965CF1CAAF46500923D1D /* LHttpRequest.h */,
+				F12965D01CAAF46500923D1D /* LMessageCenter.cpp */,
+				F12965D11CAAF46500923D1D /* LMessageCenter.h */,
+			);
+			name = NewNetWork;
+			sourceTree = "<group>";
+		};
+		F12965D51CAAF67C00923D1D /* mlib */ = {
+			isa = PBXGroup;
+			children = (
+				F12965D81CAAF68900923D1D /* ios */,
+				F12965DB1CAAF68900923D1D /* mlib_assert.h */,
+				F12965DC1CAAF68900923D1D /* mlib_buffer.cpp */,
+				F12965DD1CAAF68900923D1D /* mlib_buffer.h */,
+				F12965DE1CAAF68900923D1D /* mlib_event.cpp */,
+				F12965DF1CAAF68900923D1D /* mlib_event.h */,
+				F12965E01CAAF68900923D1D /* mlib_exception.cpp */,
+				F12965E11CAAF68900923D1D /* mlib_exception.h */,
+				F12965E21CAAF68900923D1D /* mlib_helpers.h */,
+				F12965E31CAAF68900923D1D /* mlib_http.cpp */,
+				F12965E41CAAF68900923D1D /* mlib_http.h */,
+				F12965E51CAAF68900923D1D /* mlib_localize.cpp */,
+				F12965E61CAAF68900923D1D /* mlib_localize.h */,
+				F12965E71CAAF68900923D1D /* mlib_log.cpp */,
+				F12965E81CAAF68900923D1D /* mlib_log.h */,
+				F12965E91CAAF68900923D1D /* mlib_md5.cpp */,
+				F12965EA1CAAF68900923D1D /* mlib_md5.h */,
+				F12965EB1CAAF68900923D1D /* mlib_shared_queue.cpp */,
+				F12965EC1CAAF68900923D1D /* mlib_shared_queue.h */,
+				F12965ED1CAAF68900923D1D /* mlib_task.cpp */,
+				F12965EE1CAAF68900923D1D /* mlib_task.h */,
+				F12965EF1CAAF68900923D1D /* mlib_thread.h */,
+				F12965F01CAAF68900923D1D /* mlib_utils.cpp */,
+				F12965F11CAAF68900923D1D /* mlib_utils.h */,
+				F12965F21CAAF68900923D1D /* mlib_version_number.cpp */,
+				F12965F31CAAF68900923D1D /* mlib_version_number.h */,
+				F12965F41CAAF68900923D1D /* mlib.h */,
+			);
+			name = mlib;
+			sourceTree = "<group>";
+		};
+		F12965D81CAAF68900923D1D /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				F12965D91CAAF68900923D1D /* .gitignore */,
+				F12965DA1CAAF68900923D1D /* mlib_thread.mm */,
+			);
+			name = ios;
+			path = mlib/ios;
+			sourceTree = "<group>";
+		};
 		F1B217241CA462A3009CE482 = {
 			isa = PBXGroup;
 			children = (
+				F12965D51CAAF67C00923D1D /* mlib */,
+				F12965CB1CAAF44900923D1D /* NewNetWork */,
 				F1B217951CA46673009CE482 /* network */,
 				F1B2173D1CA46337009CE482 /* autoreleasePool */,
 				F1B217481CA46337009CE482 /* hash */,
@@ -406,31 +514,46 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F12965FD1CAAF68900923D1D /* mlib_md5.cpp in Sources */,
 				F1B217701CA46337009CE482 /* tinyxml2.cpp in Sources */,
 				F1B217311CA462A3009CE482 /* main.cpp in Sources */,
 				F1B2176D1CA46337009CE482 /* json_writer.cpp in Sources */,
+				F12966011CAAF68900923D1D /* mlib_version_number.cpp in Sources */,
 				F1B217861CA46350009CE482 /* Function.cpp in Sources */,
+				F12965F81CAAF68900923D1D /* mlib_event.cpp in Sources */,
 				F1B217681CA46337009CE482 /* ccCArray.cpp in Sources */,
 				F1B2176B1CA46337009CE482 /* json_reader.cpp in Sources */,
+				F12965FE1CAAF68900923D1D /* mlib_shared_queue.cpp in Sources */,
 				F1B217661CA46337009CE482 /* CCArray.cpp in Sources */,
 				F1B217871CA46350009CE482 /* Hash_C.cpp in Sources */,
+				F12965FB1CAAF68900923D1D /* mlib_localize.cpp in Sources */,
 				F1B217841CA46350009CE482 /* ClassA.cpp in Sources */,
+				F12965D41CAAF46500923D1D /* LMessageCenter.cpp in Sources */,
 				F1B217881CA46350009CE482 /* MI_C.cpp in Sources */,
 				F108B6C41CA7CE8D003F0455 /* SocketMessage.cpp in Sources */,
 				F1B2176F1CA46337009CE482 /* CString.cpp in Sources */,
+				F12965D21CAAF46500923D1D /* LHttpErrorHandler.cpp in Sources */,
 				F1B217671CA46337009CE482 /* CCAutoreleasePool.cpp in Sources */,
 				F108B6C31CA7CE8D003F0455 /* SocketBuffer.cpp in Sources */,
+				F12965F91CAAF68900923D1D /* mlib_exception.cpp in Sources */,
 				F1B217891CA46350009CE482 /* Object.cpp in Sources */,
 				F1B2178A1CA46350009CE482 /* Sqlite3_C.cpp in Sources */,
 				F1B2176C1CA46337009CE482 /* json_value.cpp in Sources */,
 				F1B217A21CA46673009CE482 /* SocketClient.cpp in Sources */,
 				F1B217831CA46350009CE482 /* AutoPool_C.cpp in Sources */,
 				F1B217691CA46337009CE482 /* CCObject.cpp in Sources */,
+				F12966001CAAF68900923D1D /* mlib_utils.cpp in Sources */,
+				F12965D31CAAF46500923D1D /* LHttpRequest.cpp in Sources */,
 				F1B2176A1CA46337009CE482 /* CCZone.cpp in Sources */,
 				F1B217A31CA46673009CE482 /* SocketManager.cpp in Sources */,
+				F12965F61CAAF68900923D1D /* mlib_thread.mm in Sources */,
+				F12965F71CAAF68900923D1D /* mlib_buffer.cpp in Sources */,
+				F12965FC1CAAF68900923D1D /* mlib_log.cpp in Sources */,
+				F12965FF1CAAF68900923D1D /* mlib_task.cpp in Sources */,
 				F1B2178B1CA46350009CE482 /* Xml_C.cpp in Sources */,
 				F1B2176E1CA46337009CE482 /* sqlite3.c in Sources */,
 				F1B217851CA46350009CE482 /* CString.cpp in Sources */,
+				F12965FA1CAAF68900923D1D /* mlib_http.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
