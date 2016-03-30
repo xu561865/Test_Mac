@@ -13,8 +13,8 @@ public:
     MLIB_DECLARE_PROPERTY(std::string, api);
     
 public:
-    // account
     
+    LHttpRequest * auth(std::string password, std::string email/* = ""*/,bool check/* = false*/);
     
 protected:
     LHttpRequest * createRequest(const std::string& module, const std::string& action, bool isSigned = true, bool isBackground = false);
@@ -23,8 +23,6 @@ protected:
     
 
 };
-
-#define MSG_CENTER (LMessageCenter::SharedInstance())
 
 
 

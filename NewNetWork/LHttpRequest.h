@@ -5,7 +5,21 @@
 #include "json.h"
 #include "mlib_ccext.h"
 
-class LHttpResponse;
+class LHttpResponse : public mlib::MHttpResponse
+{
+public:
+    
+    LHttpResponse(unsigned short statusCode, const char * data, size_t size, mlib::MHttpHeaders & headers);
+    LHttpResponse(const LHttpResponse&) = delete;
+    ~LHttpResponse();
+    
+    virtual bool isValid();
+    
+    MLIB_DECLARE_READONLY_PROPERTY(unsigned short, returnCode);
+    MLIB_DECLARE_READONLY_PROPERTY(Json::Value, jsonValue);
+    //    MLIB_DECLARE_RETAIN_PROPERTY(cocos2d::CCObject *, context);
+};
+
 
 class LHttpRequest : public mlib::MHttpRequest
 {
@@ -24,19 +38,5 @@ protected:
 //    cocos2d::CCNode *_loadingView;
 };
 
-class LHttpResponse : public mlib::MHttpResponse
-{
-public:
-
-    LHttpResponse(unsigned short statusCode, const char * data, size_t size, mlib::MHttpHeaders & headers);
-    LHttpResponse(const LHttpResponse&) = delete;
-    ~LHttpResponse();
-    
-    virtual bool isValid();
-    
-    MLIB_DECLARE_READONLY_PROPERTY(unsigned short, returnCode);
-    MLIB_DECLARE_READONLY_PROPERTY(Json::Value, jsonValue);
-//    MLIB_DECLARE_RETAIN_PROPERTY(cocos2d::CCObject *, context);
-};
 
 #endif // lhttprequest_h

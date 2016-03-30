@@ -11,27 +11,35 @@ MLIB_NS_BEGIN
 
 static std::recursive_mutex g_mutex;
 
+const std::string MHttpRequest::EVENT_FINISHED = "event_finished";
+const std::string MHttpRequest::EVENT_CANCELLED = "event_cancelled";
+const std::string MHttpRequest::EVENT_DELETE = "event_delete";
+
+static MSharedQueue<MHttpRequest *> g_requests_low;
+static MSharedQueue<MHttpRequest *> g_requests_normal;
+static MSharedQueue<MHttpRequest *> g_requests_high;
+
+static uint32_t g_num_of_threads_low = 0;
+static uint32_t g_num_of_threads_normal = 0;
+static uint32_t g_num_of_threads_high = 0;
+
 static size_t __write_curl_data(void *ptr, size_t size, size_t nmemb, void *userdata)
 {
-//    M_DEBUG("In curl callback, size = " << size << ", nmemb = " << nmemb);
-    //    M_DEBUG("ptr is \n" << (char *)ptr);
-    
     auto buf = static_cast<MBuffer *>(userdata);
     buf->appendData((const char *)ptr, size * nmemb);
     
     return size * nmemb;
 }
+
 static size_t __write_curl_header(void *ptr, size_t size, size_t nmemb, void *userdata)
 {
-//    M_DEBUG("In curl header callback, size = " << size << ", nmemb = " << nmemb);
-    
     auto pHeaders = static_cast<MHttpHeaders *>(userdata);
     
     std::string line((const char *)ptr, size * nmemb);
     auto pos = line.find(':');
     if (pos == std::string::npos)
     {
-        // no header
+        
     }
     else
     {
@@ -41,7 +49,6 @@ static size_t __write_curl_header(void *ptr, size_t size, size_t nmemb, void *us
         name = trim(name);
         content = trim(content);
         
-//        M_DEBUG("header got: " << name << ":" << content);
         pHeaders->insert(std::make_pair(name, content));
     }
     
@@ -53,8 +60,6 @@ static size_t __progress_func(void *ptr, double dltotal, double dlnow, double ul
     auto *req = (MHttpRequest *)ptr;
     req->downloadNow(dlnow);
     req->downloadTotal(dltotal);
-    
-//    M_DEBUG("req: " << (unsigned)req << " now: " << req->downloadNow() << " total: " << req->downloadTotal());
     
     if (dltotal > 0)
     {
@@ -73,7 +78,8 @@ void __request_thread_run(MSharedQueue<MHttpRequest *> & requests, bool isTemp =
     
     CURL * ch = nullptr;
     MHttpRequest * req = nullptr;
-    while (1) {
+    while (1)
+    {
         if (requests.empty() && isTemp)
         {
             break;
@@ -237,22 +243,16 @@ static void __create_thread(MSharedQueue<MHttpRequest *> & queue, uint32_t & cou
             __request_thread_run(queue, limit != 0);
             {
                 std::lock_guard<decltype(g_mutex)> guard(g_mutex);
-                if (counter > 0) counter--;
+                if (counter > 0)
+                {
+                    counter--;
+                }
             }
         }).detach();
     }
 }
-const std::string MHttpRequest::EVENT_FINISHED = "event_finished";
-const std::string MHttpRequest::EVENT_CANCELLED = "event_cancelled";
-const std::string MHttpRequest::EVENT_DELETE = "event_delete";
 
-static MSharedQueue<MHttpRequest *> g_requests_low;
-static MSharedQueue<MHttpRequest *> g_requests_normal;
-static MSharedQueue<MHttpRequest *> g_requests_high;
 
-static uint32_t g_num_of_threads_low = 0;
-static uint32_t g_num_of_threads_normal = 0;
-static uint32_t g_num_of_threads_high = 0;
 
 #pragma mark MHttpRequest
 
@@ -365,7 +365,7 @@ void MHttpRequest::Delete(mlib::MHttpRequest *&req)
         req->dispatchEvent(MEvent(EVENT_DELETE));
         req->_finished = true;
         delete req;
-//        M_INFO("request " << (long)req << " deleted");
+
         req = nullptr;
 
     }

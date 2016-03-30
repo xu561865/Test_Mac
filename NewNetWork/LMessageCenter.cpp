@@ -81,3 +81,21 @@ void LMessageCenter::postLogicRequestHandler(mlib::MEvent *evt)
         }
     }
 }
+
+LHttpRequest * LMessageCenter::auth(std::string password, std::string email/* = ""*/,bool check/* = false*/)
+{
+    auto req = this->createRequest("account", "auth", false);
+
+    req->addParameter("pass", password);
+    req->addParameter("check", check);
+    
+    
+    auto handler = [req, password,check] (mlib::MEvent * evt) {
+        if (req->isSuccess())
+        {
+        }
+    };
+    req->addEventListener(LHttpRequest::EVENT_FINISHED, handler);
+    
+    return req;
+}

@@ -21,7 +21,8 @@
 		F12965FF1CAAF68900923D1D /* mlib_task.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965ED1CAAF68900923D1D /* mlib_task.cpp */; };
 		F12966001CAAF68900923D1D /* mlib_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F01CAAF68900923D1D /* mlib_utils.cpp */; };
 		F12966011CAAF68900923D1D /* mlib_version_number.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F21CAAF68900923D1D /* mlib_version_number.cpp */; };
-		F1A990C91CABFF1C00BD4241 /* LHttpErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1A990C71CABFF1C00BD4241 /* LHttpErrorHandler.cpp */; settings = {ASSET_TAGS = (); }; };
+		F13B07541CAC1DFE0072FED9 /* NewNetWork_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F13B07521CAC1DFE0072FED9 /* NewNetWork_C.cpp */; };
+		F1A990C91CABFF1C00BD4241 /* LHttpErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1A990C71CABFF1C00BD4241 /* LHttpErrorHandler.cpp */; };
 		F1B217311CA462A3009CE482 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217301CA462A3009CE482 /* main.cpp */; };
 		F1B217661CA46337009CE482 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2173E1CA46337009CE482 /* CCArray.cpp */; };
 		F1B217671CA46337009CE482 /* CCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217401CA46337009CE482 /* CCAutoreleasePool.cpp */; };
@@ -93,6 +94,8 @@
 		F12965F21CAAF68900923D1D /* mlib_version_number.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_version_number.cpp; path = mlib/mlib_version_number.cpp; sourceTree = "<group>"; };
 		F12965F31CAAF68900923D1D /* mlib_version_number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_version_number.h; path = mlib/mlib_version_number.h; sourceTree = "<group>"; };
 		F12965F41CAAF68900923D1D /* mlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib.h; path = mlib/mlib.h; sourceTree = "<group>"; };
+		F13B07521CAC1DFE0072FED9 /* NewNetWork_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NewNetWork_C.cpp; sourceTree = "<group>"; };
+		F13B07531CAC1DFE0072FED9 /* NewNetWork_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewNetWork_C.h; sourceTree = "<group>"; };
 		F1A990C51CABFCD500BD4241 /* mlib_ccext_helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_ccext_helpers.h; path = mlib/mlib_ccext_helpers.h; sourceTree = "<group>"; };
 		F1A990C61CABFCD500BD4241 /* mlib_ccext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_ccext.h; path = mlib/mlib_ccext.h; sourceTree = "<group>"; };
 		F1A990C71CABFF1C00BD4241 /* LHttpErrorHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LHttpErrorHandler.cpp; path = NewNetWork/LHttpErrorHandler.cpp; sourceTree = "<group>"; };
@@ -213,6 +216,15 @@
 			name = mlib;
 			sourceTree = "<group>";
 		};
+		F13B07511CAC1DB00072FED9 /* Test_NewNetWork */ = {
+			isa = PBXGroup;
+			children = (
+				F13B07521CAC1DFE0072FED9 /* NewNetWork_C.cpp */,
+				F13B07531CAC1DFE0072FED9 /* NewNetWork_C.h */,
+			);
+			name = Test_NewNetWork;
+			sourceTree = "<group>";
+		};
 		F1B217241CA462A3009CE482 = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +253,7 @@
 		F1B2172F1CA462A3009CE482 /* TestMac */ = {
 			isa = PBXGroup;
 			children = (
+				F13B07511CAC1DB00072FED9 /* Test_NewNetWork */,
 				F1B217941CA4640F009CE482 /* Test_Xml */,
 				F1B217931CA46401009CE482 /* Test_Sqlite */,
 				F1B217921CA463F3009CE482 /* Test_Object */,
@@ -504,6 +517,7 @@
 				F1B217311CA462A3009CE482 /* main.cpp in Sources */,
 				F1B2176D1CA46337009CE482 /* json_writer.cpp in Sources */,
 				F12966011CAAF68900923D1D /* mlib_version_number.cpp in Sources */,
+				F13B07541CAC1DFE0072FED9 /* NewNetWork_C.cpp in Sources */,
 				F1B217861CA46350009CE482 /* Function.cpp in Sources */,
 				F12965F81CAAF68900923D1D /* mlib_event.cpp in Sources */,
 				F1B217681CA46337009CE482 /* ccCArray.cpp in Sources */,
