@@ -9,7 +9,6 @@
 #include "mlib_utils.h"
 #include "mlib_shared_queue.h"
 #include "mlib_buffer.h"
-#include "mlib_localize.h"
 #include "mlib_version_number.h"
 
 #endif // mlib_h

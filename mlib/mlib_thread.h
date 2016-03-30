@@ -8,7 +8,7 @@ MLIB_NS_BEGIN
 void runInMainThread(std::function<void()> func);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-void setMainThread(pthread_t tid);
+//void setMainThread(pthread_t tid);
 #endif
 
 MLIB_NS_END

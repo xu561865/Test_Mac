@@ -1,15 +1,13 @@
 #include "LHttpRequest.h"
-#include "LMemory.h"
-#include "LLoadingView.h"
+//#include "LMemory.h"
 #include "LMessageCenter.h"
-
 #include "LHttpErrorHandler.h"
 
 using namespace mlib;
 
 #pragma mark LHttpRequest
 
-LHttpRequest::LHttpRequest(const std::string& url) : MHttpRequest::MHttpRequest(url), _loadingView(nullptr)
+LHttpRequest::LHttpRequest(const std::string& url) : MHttpRequest::MHttpRequest(url)
 {
     _timeoutInSeconds = 5;
 }
@@ -49,10 +47,9 @@ void LHttpRequest::send()
     if (!isBackground())
     {
         M_DEBUG("loadingview popup");
-        LLoadingView *view = LLoadingView::createWithCCB();
-//        MScreenManager::popup(view, )
-        MScreenManager::popupWithBgColor(view, cocos2d::ccc4(0, 0, 0, 0), true);
-        _loadingView = view;
+//        LLoadingView *view = LLoadingView::createWithCCB();
+//        MScreenManager::popupWithBgColor(view, cocos2d::ccc4(0, 0, 0, 0), true);
+//        _loadingView = view;
     }
 }
 
@@ -61,7 +58,7 @@ void LHttpRequest::send()
 LHttpResponse::LHttpResponse(unsigned short statusCode, const char * data, size_t size, mlib::MHttpHeaders & headers) :
 MHttpResponse(statusCode, data, size, headers)
 {
-    MLIB_PROPERTY_INIT(cocos2d::CCObject *, context);
+//    MLIB_PROPERTY_INIT(cocos2d::CCObject *, context);
     
     mlib::runInMainThread([this, statusCode] () {
         switch (statusCode) {
@@ -81,7 +78,7 @@ MHttpResponse(statusCode, data, size, headers)
                 {
                     std::string decoded = mlib::base64_decode(_responseData);
                     unsigned char * deflated = nullptr;
-                    int len = cocos2d::ZipUtils::ccInflateMemory((unsigned char *)decoded.data(), decoded.length(), &deflated);
+                    int len; //= cocos2d::ZipUtils::ccInflateMemory((unsigned char *)decoded.data(), decoded.length(), &deflated);
                     if (deflated == nullptr)
                     {
                         _returnCode = LHttpErrorHandler::ERROR_DEFLATE_DATA;
@@ -129,7 +126,7 @@ MHttpResponse(statusCode, data, size, headers)
 
 LHttpResponse::~LHttpResponse()
 {
-    MLIB_PROPERTY_RELEASE(cocos2d::CCObject *, context);
+//    MLIB_PROPERTY_RELEASE(cocos2d::CCObject *, context);
 }
 
 bool LHttpResponse::isValid()

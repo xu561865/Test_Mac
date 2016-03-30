@@ -8,7 +8,7 @@
 #include <mutex>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include <android/log.h>
+//#include <android/log.h>
 #endif
 
 MLIB_NS_BEGIN
@@ -117,7 +117,7 @@ void MLogger::log(mlib::MLogLevel level, const std::string &message, const char 
     _os << ss.str();
     _os.flush();
 #else
-    __android_log_print(ANDROID_LOG_DEBUG, "MLogger debug",  ss.str().c_str());
+//    __android_log_print(ANDROID_LOG_DEBUG, "MLogger debug",  ss.str().c_str());
 #endif
 }
 

@@ -171,6 +171,9 @@ public:
         ERR_WORLDBOSS_NO_VALID_TIME = 21903,
         ERR_WORLDBOSS_ALREADY_ESCAPE = 21904,
         
+        // cross server pvp
+        ERR_PVP_SIGNED_UP_HAS_REACHED_MAX = 22704,
+        
     } Errno_t;
     
     typedef enum {

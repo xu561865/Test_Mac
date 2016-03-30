@@ -21,7 +21,7 @@ protected:
     LHttpRequest(const std::string& url);
     virtual mlib::MHttpResponse * createResponse(unsigned short statusCode, const char * data, size_t size, mlib::MHttpHeaders & headers);
     
-    cocos2d::CCNode *_loadingView;
+//    cocos2d::CCNode *_loadingView;
 };
 
 class LHttpResponse : public mlib::MHttpResponse
@@ -36,7 +36,7 @@ public:
     
     MLIB_DECLARE_READONLY_PROPERTY(unsigned short, returnCode);
     MLIB_DECLARE_READONLY_PROPERTY(Json::Value, jsonValue);
-    MLIB_DECLARE_RETAIN_PROPERTY(cocos2d::CCObject *, context);
+//    MLIB_DECLARE_RETAIN_PROPERTY(cocos2d::CCObject *, context);
 };
 
 #endif // lhttprequest_h
