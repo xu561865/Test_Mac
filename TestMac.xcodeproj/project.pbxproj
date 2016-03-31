@@ -22,7 +22,7 @@
 		F12966001CAAF68900923D1D /* mlib_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F01CAAF68900923D1D /* mlib_utils.cpp */; };
 		F12966011CAAF68900923D1D /* mlib_version_number.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F21CAAF68900923D1D /* mlib_version_number.cpp */; };
 		F13B07541CAC1DFE0072FED9 /* NewNetWork_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F13B07521CAC1DFE0072FED9 /* NewNetWork_C.cpp */; };
-		F16680621CAD4D5100317B7A /* mlib_socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16680601CAD4D5100317B7A /* mlib_socket.cpp */; settings = {ASSET_TAGS = (); }; };
+		F16680621CAD4D5100317B7A /* mlib_socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16680601CAD4D5100317B7A /* mlib_socket.cpp */; };
 		F1A990C91CABFF1C00BD4241 /* LHttpErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1A990C71CABFF1C00BD4241 /* LHttpErrorHandler.cpp */; };
 		F1B217311CA462A3009CE482 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217301CA462A3009CE482 /* main.cpp */; };
 		F1B217661CA46337009CE482 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2173E1CA46337009CE482 /* CCArray.cpp */; };
@@ -47,6 +47,7 @@
 		F1B2178B1CA46350009CE482 /* Xml_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217811CA46350009CE482 /* Xml_C.cpp */; };
 		F1B217A21CA46673009CE482 /* SocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2179A1CA46673009CE482 /* SocketClient.cpp */; };
 		F1B217A31CA46673009CE482 /* SocketManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2179C1CA46673009CE482 /* SocketManager.cpp */; };
+		F1E2A1A01CAD9D5E007F368E /* Curl_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1E2A19F1CAD9D5E007F368E /* Curl_C.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -160,6 +161,8 @@
 		F1B2179B1CA46673009CE482 /* SocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketClient.h; sourceTree = "<group>"; };
 		F1B2179C1CA46673009CE482 /* SocketManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketManager.cpp; sourceTree = "<group>"; };
 		F1B2179D1CA46673009CE482 /* SocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketManager.h; sourceTree = "<group>"; };
+		F1E2A19E1CAD9D50007F368E /* Curl_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Curl_C.h; sourceTree = "<group>"; };
+		F1E2A19F1CAD9D5E007F368E /* Curl_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Curl_C.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +261,7 @@
 		F1B2172F1CA462A3009CE482 /* TestMac */ = {
 			isa = PBXGroup;
 			children = (
+				F1E2A19D1CAD9D30007F368E /* Test_Curl */,
 				F13B07511CAC1DB00072FED9 /* Test_NewNetWork */,
 				F1B217941CA4640F009CE482 /* Test_Xml */,
 				F1B217931CA46401009CE482 /* Test_Sqlite */,
@@ -461,6 +465,15 @@
 			path = network;
 			sourceTree = "<group>";
 		};
+		F1E2A19D1CAD9D30007F368E /* Test_Curl */ = {
+			isa = PBXGroup;
+			children = (
+				F1E2A19E1CAD9D50007F368E /* Curl_C.h */,
+				F1E2A19F1CAD9D5E007F368E /* Curl_C.cpp */,
+			);
+			name = Test_Curl;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -545,6 +558,7 @@
 				F1B217A21CA46673009CE482 /* SocketClient.cpp in Sources */,
 				F1B217831CA46350009CE482 /* AutoPool_C.cpp in Sources */,
 				F1B217691CA46337009CE482 /* CCObject.cpp in Sources */,
+				F1E2A1A01CAD9D5E007F368E /* Curl_C.cpp in Sources */,
 				F12966001CAAF68900923D1D /* mlib_utils.cpp in Sources */,
 				F12965D31CAAF46500923D1D /* LHttpRequest.cpp in Sources */,
 				F1B2176A1CA46337009CE482 /* CCZone.cpp in Sources */,

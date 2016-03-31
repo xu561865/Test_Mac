@@ -1,46 +1,51 @@
-#include <errno.h>
-#include <signal.h>
-#include <math.h>
+#include "mlib_socket.h"
+
+#include <sys/socket.h>
+#include "mlib_log.h"
+#include "mlib_utils.h"
+#include "mlib_thread.h"
+#include "mlib_buffer.h"
 #include "SocketConst.h"
-#include "SocketClient.h"
-#include "SocketMessage.h"
+
+MLIB_NS_BEGIN
+
+static std::recursive_mutex g_mutex;
+
+const std::string MSocketRequest::EVENT_FINISHED = "event_finished";
+const std::string MSocketRequest::EVENT_CANCELLED = "event_cancelled";
+const std::string MSocketRequest::EVENT_DELETE = "event_delete";
+
+static MSharedQueue<MSocketRequest *> g_requests_low;
+static MSharedQueue<MSocketRequest *> g_requests_normal;
+static MSharedQueue<MSocketRequest *> g_requests_high;
+
+static uint32_t g_num_of_threads_low = 0;
+static uint32_t g_num_of_threads_normal = 0;
+static uint32_t g_num_of_threads_high = 0;
 
 
-bool g_bcheckReceivedMessage = true;
 
-SocketMessage* constructErrorMessage(int type,int errCode, std::string error)
-{
-    SocketMessage* msg = new SocketMessage();
-    //	msg->type = 0;
-    //	msg->type_selfdefine = type;//TYPE_SELF_DEINE_MESSAGE_CONNECT_FAIL;
-    //	ByteBuffer* buf = new ByteBuffer(1024);
-    //	buf->putInt(errCode);
-    //	buf->putUTF(error);
-    //
-    //	msg->data = buf->toByteArray();
-    //	delete buf;
-    
-    return msg;
-}
 
-SocketClient::SocketClient(std::string host, int port, byte clientid, byte serverid): m_iState(SOCKET_CLIENT_WAIT_CONNECT), m_cbRecvBuf(LIMIT_BUFFER), m_cbSendBuf(1024*60)
+#pragma mark MSocketRequest
+
+MSocketRequest::MSocketRequest(std::string host, int port, byte clientid, byte serverid): m_iState(SOCKET_CLIENT_WAIT_CONNECT), m_cbRecvBuf(LIMIT_BUFFER), m_cbSendBuf(1024*60)
 {
     pthread_mutex_init (&m_sendqueue_mutex,NULL);
-	pthread_mutex_init(&m_thread_cond_mutex,NULL);
-	pthread_cond_init(&m_threadCond, NULL);
-	
-	m_hSocket = -1;
-	
-	this->m_host = host;
-	this->m_iport = port;
-	this->m_clientId = clientid;
-	this->m_serverId = serverid;
-	
-	m_bThreadRecvCreated = false;
-	m_bThreadSendCreated = false;
+    pthread_mutex_init(&m_thread_cond_mutex,NULL);
+    pthread_cond_init(&m_threadCond, NULL);
+    
+    m_hSocket = -1;
+    
+    this->m_host = host;
+    this->m_iport = port;
+    this->m_clientId = clientid;
+    this->m_serverId = serverid;
+    
+    m_bThreadRecvCreated = false;
+    m_bThreadSendCreated = false;
 }
 
-SocketClient::~SocketClient()
+MSocketRequest::~MSocketRequest()
 {
     m_iState = SOCKET_CLIENT_DESTROY;
     if( m_hSocket != -1)
@@ -67,67 +72,18 @@ SocketClient::~SocketClient()
     }
 }
 
-void SocketClient::start()
+void MSocketRequest::send()
 {
-	if(!m_bThreadSendCreated)
+    if(!m_bThreadSendCreated)
     {
-		pthread_create(&pthread_t_send, NULL, ThreadSendMessage, this);
-		m_bThreadSendCreated = true;
-	}
+        pthread_create(&pthread_t_send, NULL, ThreadSendMessage, this);
+        m_bThreadSendCreated = true;
+    }
 }
 
-bool SocketClient::connectServer()
+void* MSocketRequest::ThreadSendMessage(void *p)
 {
-    if( m_host.length() < 1 || m_iport == 0)
-    {
-        return false;
-    }
-    
-    if( m_hSocket != -1)
-    {
-        close(m_hSocket);
-    }
-    
-    m_hSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (m_hSocket == -1)
-    {
-        return false;
-    }
-    
-    sockaddr_in socketAddr;
-    memset(&socketAddr, 0, sizeof(socketAddr));
-    
-    socketAddr.sin_family = AF_INET;
-    socketAddr.sin_port = htons(m_iport);
-    socketAddr.sin_addr.s_addr = inet_addr(m_host.c_str());
-    
-    memset(&(socketAddr.sin_zero), 0, sizeof(socketAddr.sin_zero));
-    
-    int iErrorCode = connect(m_hSocket, (sockaddr*)&socketAddr, sizeof(socketAddr));
-    if (iErrorCode == -1)
-    {
-        printf("socket connect error:%d\n",errno);
-        return false;
-    }
-    
-    if(!m_bThreadRecvCreated)
-    {
-        if(pthread_create(&pthread_t_receive, NULL, SocketClient::ThreadReceiveMessage, this) != 0)
-        {
-            return false;
-        }
-        
-        m_bThreadRecvCreated = true;
-    }
-    
-    m_iState = SOCKET_CLIENT_OK;
-    
-    return true;
-}
-
-void* SocketClient::ThreadSendMessage(void *p)
-{
-    SocketClient* This = static_cast<SocketClient*>(p) ;
+    MSocketRequest* This = static_cast<MSocketRequest*>(p) ;
     
     while(This->m_iState == SOCKET_CLIENT_WAIT_CONNECT && !This->connectServer())
     {
@@ -194,7 +150,7 @@ void* SocketClient::ThreadSendMessage(void *p)
             {
                 {
                     MyLock lock(&This->m_sendqueue_mutex);
-
+                    
                     msg = This->m_sendNewMessageQueue.front();
                     This->m_sendNewMessageQueue.pop();
                 }
@@ -239,7 +195,7 @@ void* SocketClient::ThreadSendMessage(void *p)
             ts.tv_nsec = 0;
             
             MyLock lock(&(This->m_thread_cond_mutex));
-        
+            
             if(This->m_iState != SOCKET_CLIENT_DESTROY && This->m_sendNewMessageQueue.size() == 0)
             {
                 pthread_cond_timedwait(&(This->m_threadCond),&(This->m_thread_cond_mutex),&ts);
@@ -250,7 +206,51 @@ void* SocketClient::ThreadSendMessage(void *p)
     return (void*)0;
 }
 
-void* SocketClient::ThreadReceiveMessage(void *p)
+bool MSocketRequest::connectServer()
+{
+    if(_host.length() < 1 || _iport == 0)
+    {
+        return false;
+    }
+    
+    if(_hSocket != -1)
+    {
+        close(_hSocket);
+    }
+    
+    _hSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (_hSocket == -1)
+    {
+        return false;
+    }
+    
+    sockaddr_in socketAddr;
+    memset(&socketAddr, 0, sizeof(socketAddr));
+    
+    socketAddr.sin_family = AF_INET;
+    socketAddr.sin_port = htons(m_iport);
+    socketAddr.sin_addr.s_addr = inet_addr(_host.c_str());
+    
+    memset(&(socketAddr.sin_zero), 0, sizeof(socketAddr.sin_zero));
+    
+    int iErrorCode = connect(m_hSocket, (sockaddr*)&socketAddr, sizeof(socketAddr));
+    if (iErrorCode == -1)
+    {
+        printf("socket connect error:%d\n",errno);
+        return false;
+    }
+    
+    
+    if(pthread_create(&pthread_t_receive, NULL, SocketClient::ThreadReceiveMessage, this) != 0)
+    {
+        return false;
+    }
+    
+    
+    return true;
+}
+
+void* MSocketRequest::ThreadReceiveMessage(void *p)
 {
     fd_set fdRead;
     
@@ -274,7 +274,7 @@ void* SocketClient::ThreadReceiveMessage(void *p)
     gettimeofday(&lastReceiveDataTime, NULL);
     lastHintUserTime = lastReceiveDataTime;
     
-    SocketClient* This = static_cast<SocketClient*>(p) ;
+    MSocketRequest* This = static_cast<MSocketRequest*>(p) ;
     
     SocketBuffer* recvBuff = &This->m_cbRecvBuf;
     
@@ -414,6 +414,30 @@ void* SocketClient::ThreadReceiveMessage(void *p)
                         MyLock lock(&This->m_sendqueue_mutex);
                         
                         This->m_receivedNewMessageQueue.push(message);
+                        CData::getCData()->m_dictionary->setObject(message, bytesToInt(message->commandId));
+                        
+                        
+                        
+                        //event listener
+                        This->addEventListener(MHttpRequest::EVENT_FINISHED, [req] (mlib::MEvent * evt) {
+                            if (This->_isSuccess)
+                            {
+                                if (This->_successHandler)
+                                {
+                                    This->_successHandler(req);
+                                }
+                            }
+                            else
+                            {
+                                if (This->_errorHandler)
+                                {
+                                    This->_errorHandler(req);
+                                }
+                            }
+                        }, &g_mutex);
+                        
+                        This->dispatchEvent(MEvent(MHttpRequest::EVENT_FINISHED));
+                        This->removeEventListenerFor(&g_mutex);
                     }
                     
                     recvBuff->compact();
@@ -426,120 +450,32 @@ void* SocketClient::ThreadReceiveMessage(void *p)
     return (void*)0;
 }
 
-bool SocketClient::isWaitConnect()
+void MSocketRequest::onSuccess(std::function<void (MSocketRequest *)> handler)
 {
-	return m_iState == SOCKET_CLIENT_WAIT_CONNECT;
+    _successHandler = handler;
 }
 
-int SocketClient::bytesToInt(byte* bytes)
+void MSocketRequest::onError(std::function<void (MSocketRequest *)> handler)
 {
-    int addr = bytes[3] & 0xFF;
-    addr |= ((bytes[2] << 8) & 0xFF00);
-    addr |= ((bytes[1] << 16) & 0xFF0000);
-    addr |= ((bytes[0] << 24) & 0xFF000000);
-    
-    return addr;
+    _errorHandler = handler;
 }
 
-byte* SocketClient::intToByte(int i)
+
+#pragma mark MHttpResponse
+
+MHttpResponse * MSocketRequest::createResponse(unsigned short statusCode, const char *data, size_t size)
 {
-    byte* abyte0 = new byte[4];
-    abyte0[3] = (byte) (0xff & i);
-    abyte0[2] = (byte) ((0xff00 & i) >> 8);
-    abyte0[1] = (byte) ((0xff0000 & i) >> 16);
-    abyte0[0] = (byte) ((0xff000000 & i) >> 24);
-    
-    return abyte0;
+    return new MHttpResponse(statusCode, data, size);
 }
 
-SocketMessage* SocketClient::constructMessage(std::string value)
+MHttpResponse::MHttpResponse(unsigned short statusCode, const char * data, size_t size) :
+_statusCode(statusCode),
+_responseData(data, size),
+_isErrorHandled(false)
 {
-    SocketMessage *msg = new SocketMessage();
     
-    const char *pValue = value.c_str();
-    unsigned short valueLength = strlen(pValue);
-    msg->dataLength(valueLength + 2);
-    msg->data(new char(msg->dataLength()));
-    
-    void *pLeng = static_cast<void*>(&valueLength);
-    memcpy(msg->data(), static_cast<char*>(pLeng) + 1, sizeof(char));
-    memcpy(static_cast<char*>(msg->data()) + 1, &valueLength, sizeof(char));
-    
-    memcpy(static_cast<char*>(msg->data()) + 2, pValue, valueLength);
-    
-    printf("messge %s", pValue);
-    
-    return msg;
 }
 
-void SocketClient::stop(bool b)
-{
-	m_iState = SOCKET_CLIENT_DESTROY;
 
-	{
-		MyLock lock(&m_thread_cond_mutex);
-		pthread_cond_signal(&m_threadCond);
-	}
-    
-	if(m_bThreadRecvCreated)
-	{
-        pthread_join(pthread_t_receive, NULL);
-    }
-    
-	pthread_join(pthread_t_send, NULL);
-}
 
-void SocketClient::sendMessage_(SocketMessage* msg, bool b)
-{
-    if(m_iState == SOCKET_CLIENT_DESTROY)
-    {
-        delete msg;
-        return;
-    }
-    
-    {
-        MyLock lock(&m_sendqueue_mutex);
-        m_sendNewMessageQueue.push(msg);
-    }
-    
-    if( m_iState == SOCKET_CLIENT_OK)
-    {
-        MyLock lock(&m_thread_cond_mutex);
-        pthread_cond_signal(&m_threadCond);
-    }
-}
-
-//获取服务器包
-SocketMessage* SocketClient::pickReceivedMessage()
-{
-	SocketMessage* msg = NULL;
-	MyLock lock(&m_sendqueue_mutex);
-    
-    if( m_receivedNewMessageQueue.size()>0)
-    {
-        msg = m_receivedNewMessageQueue.front();
-    }
-	
-	return msg;
-}
-
-SocketMessage* SocketClient::popReceivedMessage()
-{
-	SocketMessage* msg = NULL;
-	MyLock lock(&m_sendqueue_mutex);
-    
-    if( m_receivedNewMessageQueue.size()>0)
-    {
-        msg = m_receivedNewMessageQueue.front();
-        m_receivedNewMessageQueue.pop();
-    }
-	
-	return msg;
-}
-
-void SocketClient::pushReceivedMessage(SocketMessage* msg)
-{
-	MyLock lock(&m_sendqueue_mutex);
-
-    m_receivedNewMessageQueue.push(msg);
-}
+MLIB_NS_END
