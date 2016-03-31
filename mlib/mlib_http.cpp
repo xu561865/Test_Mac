@@ -102,8 +102,14 @@ void __request_thread_run(MSharedQueue<MHttpRequest *> & requests, bool isTemp =
         }
         else
         {
-            if (ch) curl_easy_reset(ch);
-            else ch = curl_easy_init();
+            if (ch)
+            {
+                curl_easy_reset(ch);
+            }
+            else
+            {
+                ch = curl_easy_init();
+            }
             
             req->_isSuccess = false;
             CURLcode res;
@@ -241,6 +247,7 @@ static void __create_thread(MSharedQueue<MHttpRequest *> & queue, uint32_t & cou
                 counter ++;
             }
             __request_thread_run(queue, limit != 0);
+            
             {
                 std::lock_guard<decltype(g_mutex)> guard(g_mutex);
                 if (counter > 0)
