@@ -1,11 +1,12 @@
 #include "mlib_socket.h"
 
-#include <sys/socket.h>
+#include <curl/curl.h>
+
 #include "mlib_log.h"
 #include "mlib_utils.h"
 #include "mlib_thread.h"
 #include "mlib_buffer.h"
-#include "SocketConst.h"
+#include <sys/socket.h>
 
 MLIB_NS_BEGIN
 
@@ -25,429 +26,262 @@ static uint32_t g_num_of_threads_high = 0;
 
 
 
+void __request_thread_run(MSharedQueue<MSocketRequest *> & requests, bool isTemp = false)
+{
+    MSocketRequest * req = nullptr;
+    
+    while (1)
+    {
+        if (requests.empty() && isTemp)
+        {
+            break;
+        }
+        
+        requests.pop(req);
+        
+        if (req->socketState() == MSocketRequest::SOCKET_CANCELLED)
+        {
+            MSocketRequest::Delete(req);
+            continue;
+        }
+        
+        auto now = time(NULL);
+        if (now - req->_startTime > req->_timeoutInSeconds)
+        {
+            req->_response = req->createResponse(MSocketResponse::ERROR, nullptr, 0);
+            req->socketState(MSocketRequest::SOCKET_FAILED);
+        }
+        else
+        {
+            req->socketState(MSocketRequest::SOCKET_FAILED);
+            
+            
+            
+            //connect server
+            
+            if(req->_hSocket != -1)
+            {
+                close(req->_hSocket);
+            }
+            
+            req->_hSocket = socket(AF_INET, SOCK_STREAM, 0);
+            if (req->_hSocket == -1)
+            {
+                
+            }
+            
+            sockaddr_in socketAddr;
+            memset(&socketAddr, 0, sizeof(socketAddr));
+            
+            socketAddr.sin_family = AF_INET;
+            socketAddr.sin_port = htons(req->_iport);
+            socketAddr.sin_addr.s_addr = inet_addr(req->_host.c_str());
+            
+            memset(&(socketAddr.sin_zero), 0, sizeof(socketAddr.sin_zero));
+            
+            int iErrorCode = connect(req->_hSocket, (sockaddr*)&socketAddr, sizeof(socketAddr));
+            if (iErrorCode == -1)
+            {
+                printf("socket connect error:%d\n",errno);
+                
+            }
+            
+            req->socketState(MSocketRequest::SOCKET_SUCCESS);
+            
+            ssize_t ret = send(req->_hSocket, req->_paramStream.str().c_str(), req->_paramLen, 0);
+            if(ret == -1)
+            {
+                
+            }
+            
+            size_t tmpSize = sizeof(char) * 1024;
+            void* pTempBuffer = malloc(tmpSize);
+            
+            ret = recv(req->_hSocket, pTempBuffer, tmpSize, 0);
+            if(ret == -1)
+            {
+                req->_isSuccess = false;
+            }
+            else if(ret == 0)
+            {
+                req->_isSuccess = false;
+            }
+            else
+            {
+                req->_isSuccess = true;
+                
+                auto buf = static_cast<MBuffer *>(pTempBuffer);
+                buf->appendData((const char *)pTempBuffer, tmpSize);
+            }
+            
+            
+            MBuffer buffer;
+            if (req->_isSuccess)
+            {
+
+                req->_response = req->createResponse(MSocketResponse::OK, buffer.getData(), buffer.size());
+                
+                req->_isSuccess = req->_isSuccess && req->_response->isValid();
+            }
+            else
+            {
+                req->_response = req->createResponse(MSocketResponse::ERROR, nullptr, 0);
+            }
+        }
+        
+        runInMainThread([req] () {
+            
+            if (!req->_isCancelled)
+            {
+                req->addEventListener(MSocketRequest::EVENT_FINISHED, [req] (mlib::MEvent * evt) {
+                    if (req->_isSuccess)
+                    {
+                        if (req->_successHandler)
+                        {
+                            req->_successHandler(req);
+                        }
+                    }
+                    else
+                    {
+                        if (req->_errorHandler)
+                        {
+                            req->_errorHandler(req);
+                        }
+                    }
+                }, &g_mutex);
+                
+                req->dispatchEvent(MEvent(MSocketRequest::EVENT_FINISHED));
+                req->removeEventListenerFor(&g_mutex);
+            }
+        });
+        
+        MSocketRequest::Delete(req);
+    }
+}
+
+static void __create_thread(MSharedQueue<MSocketRequest *> & queue, uint32_t & counter, uint32_t limit = 0, size_t count = 1)
+{
+    for (size_t i = 0; i < count; ++i)
+    {
+        std::thread([&queue, &counter, limit]() {
+            {
+                std::lock_guard<decltype(g_mutex)> guard(g_mutex);
+                if (limit > 0 && counter >= limit)
+                {
+                    return;
+                }
+                counter ++;
+            }
+            __request_thread_run(queue, limit != 0);
+            
+            {
+                std::lock_guard<decltype(g_mutex)> guard(g_mutex);
+                if (counter > 0)
+                {
+                    counter--;
+                }
+            }
+        }).detach();
+    }
+}
+
+
 
 #pragma mark MSocketRequest
 
-MSocketRequest::MSocketRequest(std::string host, int port, byte clientid, byte serverid): m_iState(SOCKET_CLIENT_WAIT_CONNECT), m_cbRecvBuf(LIMIT_BUFFER), m_cbSendBuf(1024*60)
+MSocketRequest::MSocketRequest(const std::string& url) :
+_url(url),
+_timeoutInSeconds(30),
+_networkTimeout(30),
+_response(nullptr),
+_startTime(0),
+_finished(false),
+_isSuccess(false),
+_isCancelled(false),
+_priority(NORMAL)
 {
-    pthread_mutex_init (&m_sendqueue_mutex,NULL);
-    pthread_mutex_init(&m_thread_cond_mutex,NULL);
-    pthread_cond_init(&m_threadCond, NULL);
-    
-    m_hSocket = -1;
-    
-    this->m_host = host;
-    this->m_iport = port;
-    this->m_clientId = clientid;
-    this->m_serverId = serverid;
-    
-    m_bThreadRecvCreated = false;
-    m_bThreadSendCreated = false;
 }
 
 MSocketRequest::~MSocketRequest()
 {
-    m_iState = SOCKET_CLIENT_DESTROY;
-    if( m_hSocket != -1)
+    if (_response)
     {
-        close(m_hSocket);
-    }
-    
-    pthread_mutex_destroy(&m_sendqueue_mutex);
-    pthread_mutex_destroy(&m_thread_cond_mutex);
-    pthread_cond_destroy(&m_threadCond);
-    
-    while (!m_receivedNewMessageQueue.empty())
-    {
-        SocketMessage* msg = m_receivedNewMessageQueue.front();
-        m_receivedNewMessageQueue.pop();
-        SK_SAFE_DELETE(msg);
-    }
-    
-    while (!m_sendNewMessageQueue.empty())
-    {
-        SocketMessage* msg = m_sendNewMessageQueue.front();
-        m_sendNewMessageQueue.pop();
-        SK_SAFE_DELETE(msg);
+        delete _response; _response = nullptr;
     }
 }
 
 void MSocketRequest::send()
 {
-    if(!m_bThreadSendCreated)
+    std::lock_guard<decltype(g_mutex)> guard(g_mutex);
+    
+    static bool threadInitialized = false;
+    
+    if (!threadInitialized)
     {
-        pthread_create(&pthread_t_send, NULL, ThreadSendMessage, this);
-        m_bThreadSendCreated = true;
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+        threadInitialized = true;
+        __create_thread(g_requests_low, g_num_of_threads_low, 0 ,1);
+        __create_thread(g_requests_normal, g_num_of_threads_normal, 0, 2);
+        __create_thread(g_requests_high, g_num_of_threads_high, 0, 3);
+        
+        // monitor thread
+        std::thread([](){
+            
+            while (1) {
+                __create_thread(g_requests_low, g_num_of_threads_low, 2, g_requests_low.size());
+                __create_thread(g_requests_normal, g_num_of_threads_normal, 10, g_requests_normal.size());
+                __create_thread(g_requests_high, g_num_of_threads_high, 20, g_requests_high.size());
+                std::this_thread::sleep_for(std::chrono::seconds(3));
+            }
+            
+        }).detach();
+    }
+    
+    _startTime = time(NULL);
+    
+    switch (_priority) {
+        case LOW:
+            g_requests_low.push(this);
+            break;
+        case NORMAL:
+            g_requests_normal.push(this);
+            break;
+        case HIGH:
+            g_requests_high.push(this);
+            break;
+            
+        default:
+            break;
     }
 }
-
-void* MSocketRequest::ThreadSendMessage(void *p)
+void MSocketRequest::cancel()
 {
-    MSocketRequest* This = static_cast<MSocketRequest*>(p) ;
-    
-    while(This->m_iState == SOCKET_CLIENT_WAIT_CONNECT && !This->connectServer())
-    {
-        if( This->m_iport2.size()> 0)
+    runInMainThread([this] () {
+        if (!_isCancelled)
         {
-            This->m_host = This->m_host2[0];
-            This->m_iport = This->m_iport2[0];
-            This->m_serverId = This->m_serverId2[0];
-            This->m_clientId = This->m_clientId2[0];
-            
-            This->m_host2.erase(This->m_host2.begin());
-            This->m_iport2.erase(This->m_iport2.begin());
-            This->m_serverId2.erase(This->m_serverId2.begin());
-            This->m_clientId2.erase(This->m_clientId2.begin());
+            M_TRACE("cancel request, url = " << _url);
+            _isCancelled = true;
+            dispatchEvent(MEvent(EVENT_CANCELLED));
         }
         else
         {
-            This->m_iState = SOCKET_CLIENT_DESTROY;
-            std::string error("连网失败,请检查网络设置");
-            
-            {
-                MyLock lock(&This->m_sendqueue_mutex);
-                
-                This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CONNECT_FAIL, errno, error));
-            }
-            
-            return ((void *)0);
-        }
-    }
-    
-    SocketBuffer& sendBuff = This->m_cbSendBuf;
-    int socket = This->m_hSocket;
-    
-    while (This->m_iState != SOCKET_CLIENT_DESTROY)
-    {
-        if( This->m_iState == SOCKET_CLIENT_OK)
-        {
-            //发送缓冲器有遗留的数据要发送
-            if(sendBuff.getPosition() > 0)
-            {
-                sendBuff.flip();
-                int ret = send(socket, (char *)sendBuff.getBuffer(), sendBuff.getLimit(),0);
-                if(ret == -1)
-                {
-                    This->m_iState = SOCKET_CLIENT_DESTROY ;
-                    
-                    std::string err("发送数据，网络异常！");
-                    
-                    MyLock lock(&This->m_sendqueue_mutex);
-                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE, errno, err));
-                    return ((void *)0);
-                }
-                else
-                {
-                    //printf("SocketClient::ThreadSendMessage(), send message to server, size = %d\n",ret);
-                }
-                
-                sendBuff.setPosition(sendBuff.getPosition()+ret);
-                sendBuff.compact();
-            }
-            
-            SocketMessage* msg = NULL;
-            while( This->m_iState != SOCKET_CLIENT_DESTROY && This->m_sendNewMessageQueue.size()> 0)
-            {
-                {
-                    MyLock lock(&This->m_sendqueue_mutex);
-                    
-                    msg = This->m_sendNewMessageQueue.front();
-                    This->m_sendNewMessageQueue.pop();
-                }
-                
-                printf(" sendData length: %d  %ld" ,  msg->dataLength(), sizeof(char));
-                if(msg->dataLength() + sendBuff.getPosition() > sendBuff.getLimit())
-                {
-                    This->m_iState = SOCKET_CLIENT_DESTROY;
-                    printf("send buffer is full, send thread stop!");
-                    MyLock lock(&This->m_sendqueue_mutex);
-                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE,0,"发送缓冲器已满，您的网络环境好像出现了问题！"));
-                    return ((void *)0);
-                }
-                
-                sendBuff.put(msg->data(), 0, msg->dataLength());
-                sendBuff.flip();
-                
-                int ret = send(socket,(char *)sendBuff.getBuffer(),sendBuff.getLimit(),0);
-                if(ret == -1)
-                {
-                    This->m_iState = SOCKET_CLIENT_DESTROY;
-                    std::string err("发送数据，网络异常！");
-                    MyLock lock(&This->m_sendqueue_mutex);
-                    This->m_receivedNewMessageQueue.push(constructErrorMessage(TYPE_SELF_DEINE_MESSAGE_CANNOT_SEND_MESSAGE, errno, err));
-                    return ((void *)0);
-                }
-                
-                sendBuff.setPosition(sendBuff.getPosition()+ret);
-                sendBuff.compact();
-                
-                delete msg;
-            }
+            M_WARNING("Request is already cancelled!");
         }
         
-        if(This->m_iState != SOCKET_CLIENT_DESTROY && This->m_sendNewMessageQueue.size() == 0)
-        {
-            //sleep
-            struct timeval tv;
-            struct timespec ts;
-            gettimeofday(&tv, NULL);
-            ts.tv_sec = tv.tv_sec + 5;
-            ts.tv_nsec = 0;
-            
-            MyLock lock(&(This->m_thread_cond_mutex));
-            
-            if(This->m_iState != SOCKET_CLIENT_DESTROY && This->m_sendNewMessageQueue.size() == 0)
-            {
-                pthread_cond_timedwait(&(This->m_threadCond),&(This->m_thread_cond_mutex),&ts);
-            }
-        }
-    }
-    
-    return (void*)0;
+    });
 }
 
-bool MSocketRequest::connectServer()
+void MSocketRequest::Delete(mlib::MSocketRequest *&req)
 {
-    if(_host.length() < 1 || _iport == 0)
+    if (!req->_finished)
     {
-        return false;
-    }
-    
-    if(_hSocket != -1)
-    {
-        close(_hSocket);
-    }
-    
-    _hSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (_hSocket == -1)
-    {
-        return false;
-    }
-    
-    sockaddr_in socketAddr;
-    memset(&socketAddr, 0, sizeof(socketAddr));
-    
-    socketAddr.sin_family = AF_INET;
-    socketAddr.sin_port = htons(m_iport);
-    socketAddr.sin_addr.s_addr = inet_addr(_host.c_str());
-    
-    memset(&(socketAddr.sin_zero), 0, sizeof(socketAddr.sin_zero));
-    
-    int iErrorCode = connect(m_hSocket, (sockaddr*)&socketAddr, sizeof(socketAddr));
-    if (iErrorCode == -1)
-    {
-        printf("socket connect error:%d\n",errno);
-        return false;
-    }
-    
-    
-    if(pthread_create(&pthread_t_receive, NULL, SocketClient::ThreadReceiveMessage, this) != 0)
-    {
-        return false;
-    }
-    
-    
-    return true;
-}
-
-void* MSocketRequest::ThreadReceiveMessage(void *p)
-{
-    fd_set fdRead;
-    
-    struct timeval	aTime;
-    aTime.tv_sec = 1;
-    aTime.tv_usec = 0;
-    
-    //最大多少秒，连接上收不到数据就提示用户，重新登录
-    int maxIdleTimeInSeconds = 60*3;
-    
-    //最大多少秒，连接上收不到数据就提示用户，选择重连
-    int hint2TimeInSeconds = 60;
-    
-    //多长时间没有收到任何数据，提示用户
-    int hintTimeInSeconds = 30;
-    
-    struct timeval lastHintUserTime;
-    struct timeval lastReceiveDataTime;
-    struct timeval now;
-    
-    gettimeofday(&lastReceiveDataTime, NULL);
-    lastHintUserTime = lastReceiveDataTime;
-    
-    MSocketRequest* This = static_cast<MSocketRequest*>(p) ;
-    
-    SocketBuffer* recvBuff = &This->m_cbRecvBuf;
-    
-    while (This->m_iState != SOCKET_CLIENT_DESTROY)
-    {
-        if(This->m_iState != SOCKET_CLIENT_OK)
-        {
-            usleep(1000);
-            continue;
-        }
-        FD_ZERO(&fdRead);
+        req->dispatchEvent(MEvent(EVENT_DELETE));
+        req->_finished = true;
+        delete req;
         
-        FD_SET(This->m_hSocket,&fdRead);
+        req = nullptr;
         
-        aTime.tv_sec = 1;
-        aTime.tv_usec = 0;
-        
-        int ret = select(This->m_hSocket+1, &fdRead, NULL, NULL, &aTime);
-        if (ret == -1 )
-        {
-            if(errno == EINTR)
-            {
-                printf("======   收到中断信号，什么都不处理＝＝＝＝＝＝＝＝＝");
-            }
-            else
-            {
-                This->m_iState = SOCKET_CLIENT_DESTROY;
-                MyLock lock(&This->m_sendqueue_mutex);
-                return ((void *)0);
-            }
-        }
-        else if(ret == 0)
-        {
-            gettimeofday(&now, NULL);
-            if( g_bcheckReceivedMessage )
-            {
-                if(now.tv_sec - lastReceiveDataTime.tv_sec > maxIdleTimeInSeconds && now.tv_sec - lastHintUserTime.tv_sec > hintTimeInSeconds)
-                {
-                    lastHintUserTime = now;
-                    
-                    MyLock lock(&This->m_sendqueue_mutex);
-                    
-                    while( This->m_receivedNewMessageQueue.size() > 0)
-                    {
-                        SocketMessage* msg = This->m_receivedNewMessageQueue.front();
-                        This->m_receivedNewMessageQueue.pop();
-                        printf("删除消息");
-                        delete msg;
-                    }
-                }
-                else if(now.tv_sec - lastReceiveDataTime.tv_sec > hint2TimeInSeconds && now.tv_sec - lastHintUserTime.tv_sec > hintTimeInSeconds)
-                {
-                    lastHintUserTime = now;
-                    MyLock lock(&This->m_sendqueue_mutex);
-                }
-                else if(now.tv_sec - lastReceiveDataTime.tv_sec > hintTimeInSeconds && now.tv_sec - lastHintUserTime.tv_sec > hintTimeInSeconds)
-                {
-                    lastHintUserTime = now;
-                    MyLock lock(&This->m_sendqueue_mutex);
-                }
-            }
-            else
-            {
-                lastHintUserTime = now;
-                lastReceiveDataTime= now;
-            }
-        }
-        else if (ret > 0)
-        {
-            if (FD_ISSET(This->m_hSocket, &fdRead))
-            {
-                int iRetCode = 0;
-                printf(" recv data %d \n", recvBuff->remaining());
-                if(recvBuff->remaining() > 0)
-                {
-                    iRetCode = recv(This->m_hSocket, recvBuff->getBuffer()+recvBuff->getPosition(), recvBuff->remaining(), 0);
-                }
-                
-                printf(" recv data later  %d   %d \n", recvBuff->remaining(), iRetCode);
-                if (iRetCode == -1)
-                {
-                    This->m_iState = SOCKET_CLIENT_DESTROY;
-                    MyLock lock(&This->m_sendqueue_mutex);
-                    
-                    while( This->m_receivedNewMessageQueue.size()>0)
-                    {
-                        SocketMessage* msg = This->m_receivedNewMessageQueue.front();
-                        This->m_receivedNewMessageQueue.pop();
-                        printf("删除消息");
-                        delete msg;
-                    }
-                    
-                    std::string tmp("网络连接中断！");
-                    return ((void *)0);
-                }
-                else if(iRetCode == 0 && recvBuff->remaining() > 0)
-                {
-                    This->m_iState = SOCKET_CLIENT_DESTROY;
-                    MyLock lock(&This->m_sendqueue_mutex);
-                    while( This->m_receivedNewMessageQueue.size()>0)
-                    {
-                        SocketMessage* msg = This->m_receivedNewMessageQueue.front();
-                        This->m_receivedNewMessageQueue.pop();
-                        printf("删除消息");
-                        delete msg;
-                    }
-                    
-                    return ((void *)0);
-                }
-                else
-                {
-                    gettimeofday(&lastReceiveDataTime, NULL);
-                    
-                    recvBuff->setPosition(recvBuff->getPosition()+ iRetCode);
-                    recvBuff->flip();
-                    
-                    unsigned short messageLength = 0;
-                    void *pLen = &messageLength;
-                    
-                    byte high = recvBuff->getByte();
-                    memcpy(static_cast<char*>(pLen) + 1, &high, sizeof(char));
-                    
-                    byte low = recvBuff->getByte();
-                    memcpy(pLen, &low, sizeof(char));
-                    
-                    printf("receive message %d", messageLength);
-                    
-                    char *pstrMessage = new char(messageLength);
-                    recvBuff->get(pstrMessage, 0, messageLength);
-                    
-                    printf("message--- %s", pstrMessage);
-                    SocketMessage* message = new SocketMessage();
-                    message->data(pstrMessage);
-                    message->dataLength(messageLength);
-                    
-                    {
-                        MyLock lock(&This->m_sendqueue_mutex);
-                        
-                        This->m_receivedNewMessageQueue.push(message);
-                        CData::getCData()->m_dictionary->setObject(message, bytesToInt(message->commandId));
-                        
-                        
-                        
-                        //event listener
-                        This->addEventListener(MHttpRequest::EVENT_FINISHED, [req] (mlib::MEvent * evt) {
-                            if (This->_isSuccess)
-                            {
-                                if (This->_successHandler)
-                                {
-                                    This->_successHandler(req);
-                                }
-                            }
-                            else
-                            {
-                                if (This->_errorHandler)
-                                {
-                                    This->_errorHandler(req);
-                                }
-                            }
-                        }, &g_mutex);
-                        
-                        This->dispatchEvent(MEvent(MHttpRequest::EVENT_FINISHED));
-                        This->removeEventListenerFor(&g_mutex);
-                    }
-                    
-                    recvBuff->compact();
-                }
-                
-            }
-        }
     }
-    
-    return (void*)0;
 }
 
 void MSocketRequest::onSuccess(std::function<void (MSocketRequest *)> handler)
@@ -460,22 +294,21 @@ void MSocketRequest::onError(std::function<void (MSocketRequest *)> handler)
     _errorHandler = handler;
 }
 
-
-#pragma mark MHttpResponse
-
-MHttpResponse * MSocketRequest::createResponse(unsigned short statusCode, const char *data, size_t size)
+MSocketResponse * MSocketRequest::createResponse(unsigned short statusCode, const char *data, size_t size)
 {
-    return new MHttpResponse(statusCode, data, size);
+    return new MSocketResponse(statusCode, data, size);
 }
 
-MHttpResponse::MHttpResponse(unsigned short statusCode, const char * data, size_t size) :
+
+#pragma mark MSocketResponse
+
+MSocketResponse::MSocketResponse(unsigned short statusCode, const char * data, size_t size) :
 _statusCode(statusCode),
 _responseData(data, size),
 _isErrorHandled(false)
 {
     
 }
-
 
 
 MLIB_NS_END

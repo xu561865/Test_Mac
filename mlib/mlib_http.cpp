@@ -176,18 +176,6 @@ void __request_thread_run(MSharedQueue<MHttpRequest *> & requests, bool isTemp =
             {
                 long code = 0;
                 res = curl_easy_getinfo(ch, CURLINFO_HTTP_CODE, &code);
-                switch (code)
-                {
-                    case 200:
-                    case 301:
-                    case 302:
-                        break;
-                        
-                    default:
-                        M_INFO("http status code not ok, code = " << code << ", url = " << req->_url);
-                        req->_isSuccess = false;
-                        break;
-                }
                 
                 {
                     req->_response = req->createResponse(code, buffer.getData(), buffer.size(), respHeaders);

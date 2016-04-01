@@ -8,6 +8,7 @@
 
 #include "LMessageCenter.h"
 #include "NewNetWork_C.h"
+#include "mlib.h"
 
 
 void NewNetWork_C::testNewtNetWork()

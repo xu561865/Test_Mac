@@ -10,27 +10,106 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-
-#include "SocketBuffer.h"
+#include "mlib_utils.h"
 
 MLIB_NS_BEGIN
 
-const int	SOCKET_CLIENT_WAIT_CONNECT = 0;
-const int	SOCKET_CLIENT_OK = 1;
-const int	SOCKET_CLIENT_DESTROY = 2;
+class MSocketResponse;
 
-class MHttpResponse
+
+class MSocketRequest : public MEventDispatcher
 {
 public:
-    enum {
-        ERROR_CURL = 0xffff,
+    virtual ~MSocketRequest();
+    
+    static const std::string EVENT_FINISHED;
+    static const std::string EVENT_CANCELLED;
+    static const std::string EVENT_DELETE;
+    
+    enum SOCKET_STATE
+    {
+        SOCKET_WAIT_CONNECT = 0,
+        SOCKET_SUCCESS,
+        SOCKET_CANCELLED,
+        SOCKET_FAILED
+    };
+    
+    enum Priority
+    {
+        LOW = 0,
+        NORMAL,
+        HIGH
+    };
+    
+    static MSocketRequest * Request(const std::string& url)
+    {
+        return new MSocketRequest(url);
+    }
+    
+    template<typename T>
+    void addParameter(const std::string& paramName, const T& value)
+    {
+        std::stringstream ss;
+        ss << value;
+        _paramStream << "&" << paramName << "=" << urlencode(ss.str());
+    }
+    
+    virtual void send();
+    void cancel();
+    
+    void onSuccess(std::function<void(MSocketRequest*)> handler);
+    void onError(std::function<void(MSocketRequest*)> handler);
+    
+    MLIB_DECLARE_PROPERTY(Priority, priority)
+    MLIB_DECLARE_PROPERTY(SOCKET_STATE, socketState);
+    MLIB_DECLARE_PROPERTY(std::string, url);
+    MLIB_DECLARE_PROPERTY(long, timeoutInSeconds);
+    MLIB_DECLARE_PROPERTY(long, networkTimeout);
+    MLIB_DECLARE_READONLY_WEAK_PROPERTY(MSocketResponse *, response);
+    MLIB_DECLARE_READONLY_PROPERTY(bool, isSuccess);
+    MLIB_DECLARE_READONLY_PROPERTY(bool, isCancelled);
+    
+    
+protected:
+    MSocketRequest(const std::string& url); // we don't want user to get one on stack
+    virtual MSocketResponse * createResponse(unsigned short statusCode, const char * data, size_t size);
+    
+    
+private:
+    
+    std::stringstream _paramStream;
+    size_t _paramLen;
+    
+    std::string _host;
+    int _iport;
+    int _hSocket;
+    
+    time_t _startTime;
+    bool _finished;
+    
+    std::function<void(MSocketRequest*)> _successHandler;
+    std::function<void(MSocketRequest*)> _errorHandler;
+    
+    static void Delete(MSocketRequest * &req);
+    
+    friend void __request_thread_run(MSharedQueue<MSocketRequest *> & requests, bool);
+    
+};
+
+class MSocketResponse
+{
+public:
+    enum
+    {
+        OK = 0,
+        ERROR = 0xffff,
     }; // simulated error http status code
     
     friend class MSocketRequest;
     
-    MHttpResponse(unsigned short statusCode, const char * data, size_t size);
-    MHttpResponse(const MHttpResponse&) = delete;
-    virtual ~MHttpResponse() {}
+    MSocketResponse(unsigned short statusCode, const char * data, size_t size);
+    MSocketResponse(const MSocketResponse&) = delete;
+    virtual ~MSocketResponse() {}
     
     virtual bool isValid() { return true; }
     
@@ -39,98 +118,9 @@ public:
     MLIB_DECLARE_READONLY_PROPERTY(unsigned short, statusCode);
     MLIB_DECLARE_READONLY_PROPERTY(std::string, responseData);
     
-    
 };
-
-
-
-
-
-class MSocketRequest : public MEventDispatcher
-{
-public:
-    static const std::string EVENT_FINISHED;
-    static const std::string EVENT_CANCELLED;
-    static const std::string EVENT_DELETE;
-    
-    
-private:
-    int m_hSocket;
-    
-    char m_serverId;
-    char m_clientId;
-    std::string m_host;
-    int m_iport;
-    
-    std::vector<char> m_serverId2;
-    std::vector<char> m_clientId2;
-    std::vector<std::string> m_host2;
-    std::vector<int> m_iport2;//链接服务器1失败后，如果服务器2存在将连服务器2
-    
-    //发送和接收缓冲区，发送缓冲区满的时候，会断开连接，并提示信号不好
-    SocketBuffer m_cbRecvBuf;
-    SocketBuffer m_cbSendBuf;
-    
-    //收到服务端消息
-    std::queue<SocketMessage*> m_receivedNewMessageQueue;
-    
-    //需要发送到服务端的消息
-    std::queue<SocketMessage*> m_sendNewMessageQueue;
-    
-    int m_iState;
-    
-    //接收线程
-    bool m_bThreadRecvCreated;
-    pthread_t pthread_t_receive;
-    
-    //发送线程
-    bool m_bThreadSendCreated;
-    pthread_t pthread_t_send;
-    
-    pthread_mutex_t m_thread_cond_mutex;//pthread_mutex_t 互斥锁
-    pthread_cond_t m_threadCond;
-    
-    //聊天线程
-    bool m_bThreadChatCreated;
-    pthread_t pthread_t_chat;
-    pthread_mutex_t m_thread_chat_mutex;
-    //pthread_cond_t m_threadCond;
-    //发送队列同步锁
-    pthread_mutex_t m_sendqueue_mutex;
-    
-private:
-    //连接服务器
-    bool  connectServer();
-    
-    static void* ThreadReceiveMessageOld(void *p);
-    static void* ThreadReceiveMessage(void *p);
-    static void* ThreadSendMessage(void *p);
-    
-public:
-    MSocketRequest(std::string host, int port, signed char clientId, signed char serverId);
-    
-    virtual ~MSocketRequest();
-    void send();
-    void stop(bool b);
-    
-    bool isWaitConnect();
-    //发送数据
-    void sendMessage_(SocketMessage* msg,bool b);
-    
-    SocketMessage* popReceivedMessage();
-    SocketMessage* pickReceivedMessage();
-    
-    void pushReceivedMessage(SocketMessage* msg);
-    
-    SocketMessage* constructMessage(std::string);
-    static int bytesToInt(signed char* data);
-    static signed char* intToByte(int i);
-    void swhlie(int commandId);
-    
-};
-
 
 MLIB_NS_END
 
 
-#endif /*mlib_socket_h*/
+#endif
