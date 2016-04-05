@@ -7,30 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F108B6C31CA7CE8D003F0455 /* SocketBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F108B6BD1CA7CE8D003F0455 /* SocketBuffer.cpp */; };
-		F108B6C41CA7CE8D003F0455 /* SocketMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */; };
-		F12965F71CAAF68900923D1D /* mlib_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965DC1CAAF68900923D1D /* mlib_buffer.cpp */; };
-		F12965F81CAAF68900923D1D /* mlib_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965DE1CAAF68900923D1D /* mlib_event.cpp */; };
-		F12965F91CAAF68900923D1D /* mlib_exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E01CAAF68900923D1D /* mlib_exception.cpp */; };
-		F12965FA1CAAF68900923D1D /* mlib_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E31CAAF68900923D1D /* mlib_http.cpp */; };
-		F12965FC1CAAF68900923D1D /* mlib_log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E71CAAF68900923D1D /* mlib_log.cpp */; };
-		F12965FD1CAAF68900923D1D /* mlib_md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965E91CAAF68900923D1D /* mlib_md5.cpp */; };
-		F12965FE1CAAF68900923D1D /* mlib_shared_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965EB1CAAF68900923D1D /* mlib_shared_queue.cpp */; };
-		F12965FF1CAAF68900923D1D /* mlib_task.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965ED1CAAF68900923D1D /* mlib_task.cpp */; };
-		F12966001CAAF68900923D1D /* mlib_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F01CAAF68900923D1D /* mlib_utils.cpp */; };
-		F12966011CAAF68900923D1D /* mlib_version_number.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F12965F21CAAF68900923D1D /* mlib_version_number.cpp */; };
-		F13B07541CAC1DFE0072FED9 /* NewNetWork_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F13B07521CAC1DFE0072FED9 /* NewNetWork_C.cpp */; };
-		F14841561CAE2F57000931A6 /* Socket_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14841551CAE2F57000931A6 /* Socket_C.cpp */; settings = {ASSET_TAGS = (); }; };
-		F14841601CAE78CE000931A6 /* LHttpErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F148415A1CAE78CE000931A6 /* LHttpErrorHandler.cpp */; settings = {ASSET_TAGS = (); }; };
-		F14841611CAE78CE000931A6 /* LHttpRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F148415C1CAE78CE000931A6 /* LHttpRequest.cpp */; settings = {ASSET_TAGS = (); }; };
-		F14841621CAE78CE000931A6 /* LMessageCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F148415E1CAE78CE000931A6 /* LMessageCenter.cpp */; settings = {ASSET_TAGS = (); }; };
-		F148416A1CAE791C000931A6 /* LSocketErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14841641CAE791C000931A6 /* LSocketErrorHandler.cpp */; settings = {ASSET_TAGS = (); }; };
-		F148416B1CAE791C000931A6 /* LSocketRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14841661CAE791C000931A6 /* LSocketRequest.cpp */; settings = {ASSET_TAGS = (); }; };
-		F148416C1CAE791C000931A6 /* LSocketCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14841681CAE791C000931A6 /* LSocketCenter.cpp */; settings = {ASSET_TAGS = (); }; };
+		F14841561CAE2F57000931A6 /* Socket_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14841551CAE2F57000931A6 /* Socket_C.cpp */; };
 		F148416E1CAE84A9000931A6 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F148416D1CAE84A9000931A6 /* libcurl.a */; };
 		F14841701CAE8599000931A6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F148416F1CAE8599000931A6 /* libz.tbd */; };
-		F14841741CAE85D8000931A6 /* mlib_thread.mm in Sources */ = {isa = PBXBuildFile; fileRef = F14841731CAE85D7000931A6 /* mlib_thread.mm */; settings = {ASSET_TAGS = (); }; };
-		F16680621CAD4D5100317B7A /* mlib_socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16680601CAD4D5100317B7A /* mlib_socket.cpp */; };
 		F1B217311CA462A3009CE482 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217301CA462A3009CE482 /* main.cpp */; };
 		F1B217661CA46337009CE482 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2173E1CA46337009CE482 /* CCArray.cpp */; };
 		F1B217671CA46337009CE482 /* CCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217401CA46337009CE482 /* CCAutoreleasePool.cpp */; };
@@ -52,8 +31,6 @@
 		F1B217891CA46350009CE482 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2177D1CA46350009CE482 /* Object.cpp */; };
 		F1B2178A1CA46350009CE482 /* Sqlite3_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2177F1CA46350009CE482 /* Sqlite3_C.cpp */; };
 		F1B2178B1CA46350009CE482 /* Xml_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B217811CA46350009CE482 /* Xml_C.cpp */; };
-		F1B217A21CA46673009CE482 /* SocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2179A1CA46673009CE482 /* SocketClient.cpp */; };
-		F1B217A31CA46673009CE482 /* SocketManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1B2179C1CA46673009CE482 /* SocketManager.cpp */; };
 		F1E2A1A01CAD9D5E007F368E /* Curl_C.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1E2A19F1CAD9D5E007F368E /* Curl_C.cpp */; };
 /* End PBXBuildFile section */
 
@@ -70,58 +47,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F108B6BD1CA7CE8D003F0455 /* SocketBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketBuffer.cpp; sourceTree = "<group>"; };
-		F108B6BE1CA7CE8D003F0455 /* SocketBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketBuffer.h; sourceTree = "<group>"; };
-		F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketMessage.cpp; sourceTree = "<group>"; };
-		F108B6C01CA7CE8D003F0455 /* SocketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketMessage.h; sourceTree = "<group>"; };
-		F108B6C21CA7CE8D003F0455 /* SocketConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketConst.h; sourceTree = "<group>"; };
-		F12965DB1CAAF68900923D1D /* mlib_assert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_assert.h; path = mlib/mlib_assert.h; sourceTree = "<group>"; };
-		F12965DC1CAAF68900923D1D /* mlib_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_buffer.cpp; path = mlib/mlib_buffer.cpp; sourceTree = "<group>"; };
-		F12965DD1CAAF68900923D1D /* mlib_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_buffer.h; path = mlib/mlib_buffer.h; sourceTree = "<group>"; };
-		F12965DE1CAAF68900923D1D /* mlib_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_event.cpp; path = mlib/mlib_event.cpp; sourceTree = "<group>"; };
-		F12965DF1CAAF68900923D1D /* mlib_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_event.h; path = mlib/mlib_event.h; sourceTree = "<group>"; };
-		F12965E01CAAF68900923D1D /* mlib_exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_exception.cpp; path = mlib/mlib_exception.cpp; sourceTree = "<group>"; };
-		F12965E11CAAF68900923D1D /* mlib_exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_exception.h; path = mlib/mlib_exception.h; sourceTree = "<group>"; };
-		F12965E21CAAF68900923D1D /* mlib_helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_helpers.h; path = mlib/mlib_helpers.h; sourceTree = "<group>"; };
-		F12965E31CAAF68900923D1D /* mlib_http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_http.cpp; path = mlib/mlib_http.cpp; sourceTree = "<group>"; };
-		F12965E41CAAF68900923D1D /* mlib_http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_http.h; path = mlib/mlib_http.h; sourceTree = "<group>"; };
-		F12965E71CAAF68900923D1D /* mlib_log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_log.cpp; path = mlib/mlib_log.cpp; sourceTree = "<group>"; };
-		F12965E81CAAF68900923D1D /* mlib_log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_log.h; path = mlib/mlib_log.h; sourceTree = "<group>"; };
-		F12965E91CAAF68900923D1D /* mlib_md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_md5.cpp; path = mlib/mlib_md5.cpp; sourceTree = "<group>"; };
-		F12965EA1CAAF68900923D1D /* mlib_md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_md5.h; path = mlib/mlib_md5.h; sourceTree = "<group>"; };
-		F12965EB1CAAF68900923D1D /* mlib_shared_queue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_shared_queue.cpp; path = mlib/mlib_shared_queue.cpp; sourceTree = "<group>"; };
-		F12965EC1CAAF68900923D1D /* mlib_shared_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_shared_queue.h; path = mlib/mlib_shared_queue.h; sourceTree = "<group>"; };
-		F12965ED1CAAF68900923D1D /* mlib_task.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_task.cpp; path = mlib/mlib_task.cpp; sourceTree = "<group>"; };
-		F12965EE1CAAF68900923D1D /* mlib_task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_task.h; path = mlib/mlib_task.h; sourceTree = "<group>"; };
-		F12965EF1CAAF68900923D1D /* mlib_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_thread.h; path = mlib/mlib_thread.h; sourceTree = "<group>"; };
-		F12965F01CAAF68900923D1D /* mlib_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_utils.cpp; path = mlib/mlib_utils.cpp; sourceTree = "<group>"; };
-		F12965F11CAAF68900923D1D /* mlib_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_utils.h; path = mlib/mlib_utils.h; sourceTree = "<group>"; };
-		F12965F21CAAF68900923D1D /* mlib_version_number.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_version_number.cpp; path = mlib/mlib_version_number.cpp; sourceTree = "<group>"; };
-		F12965F31CAAF68900923D1D /* mlib_version_number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_version_number.h; path = mlib/mlib_version_number.h; sourceTree = "<group>"; };
-		F12965F41CAAF68900923D1D /* mlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib.h; path = mlib/mlib.h; sourceTree = "<group>"; };
-		F13B07521CAC1DFE0072FED9 /* NewNetWork_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NewNetWork_C.cpp; sourceTree = "<group>"; };
-		F13B07531CAC1DFE0072FED9 /* NewNetWork_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewNetWork_C.h; sourceTree = "<group>"; };
 		F14841521CAE2F0B000931A6 /* Socket_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Socket_C.h; path = Test_Socket/Socket_C.h; sourceTree = "<group>"; };
 		F14841551CAE2F57000931A6 /* Socket_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket_C.cpp; path = Test_Socket/Socket_C.cpp; sourceTree = "<group>"; };
-		F148415A1CAE78CE000931A6 /* LHttpErrorHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LHttpErrorHandler.cpp; sourceTree = "<group>"; };
-		F148415B1CAE78CE000931A6 /* LHttpErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHttpErrorHandler.h; sourceTree = "<group>"; };
-		F148415C1CAE78CE000931A6 /* LHttpRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LHttpRequest.cpp; sourceTree = "<group>"; };
-		F148415D1CAE78CE000931A6 /* LHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LHttpRequest.h; sourceTree = "<group>"; };
-		F148415E1CAE78CE000931A6 /* LMessageCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LMessageCenter.cpp; sourceTree = "<group>"; };
-		F148415F1CAE78CE000931A6 /* LMessageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMessageCenter.h; sourceTree = "<group>"; };
-		F14841641CAE791C000931A6 /* LSocketErrorHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LSocketErrorHandler.cpp; sourceTree = "<group>"; };
-		F14841651CAE791C000931A6 /* LSocketErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSocketErrorHandler.h; sourceTree = "<group>"; };
-		F14841661CAE791C000931A6 /* LSocketRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LSocketRequest.cpp; sourceTree = "<group>"; };
-		F14841671CAE791C000931A6 /* LSocketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSocketRequest.h; sourceTree = "<group>"; };
-		F14841681CAE791C000931A6 /* LSocketCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LSocketCenter.cpp; sourceTree = "<group>"; };
-		F14841691CAE791C000931A6 /* LSocketCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSocketCenter.h; sourceTree = "<group>"; };
 		F148416D1CAE84A9000931A6 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
 		F148416F1CAE8599000931A6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		F14841731CAE85D7000931A6 /* mlib_thread.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mlib_thread.mm; sourceTree = "<group>"; };
-		F16680601CAD4D5100317B7A /* mlib_socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mlib_socket.cpp; path = mlib/mlib_socket.cpp; sourceTree = "<group>"; };
-		F16680611CAD4D5100317B7A /* mlib_socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_socket.h; path = mlib/mlib_socket.h; sourceTree = "<group>"; };
-		F1A990C51CABFCD500BD4241 /* mlib_ccext_helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_ccext_helpers.h; path = mlib/mlib_ccext_helpers.h; sourceTree = "<group>"; };
-		F1A990C61CABFCD500BD4241 /* mlib_ccext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlib_ccext.h; path = mlib/mlib_ccext.h; sourceTree = "<group>"; };
 		F1B2172D1CA462A3009CE482 /* TestMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestMac; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B217301CA462A3009CE482 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F1B2173E1CA46337009CE482 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
@@ -175,10 +104,6 @@
 		F1B217801CA46350009CE482 /* Sqlite3_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sqlite3_C.h; sourceTree = "<group>"; };
 		F1B217811CA46350009CE482 /* Xml_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Xml_C.cpp; sourceTree = "<group>"; };
 		F1B217821CA46350009CE482 /* Xml_C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xml_C.h; sourceTree = "<group>"; };
-		F1B2179A1CA46673009CE482 /* SocketClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketClient.cpp; sourceTree = "<group>"; };
-		F1B2179B1CA46673009CE482 /* SocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketClient.h; sourceTree = "<group>"; };
-		F1B2179C1CA46673009CE482 /* SocketManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketManager.cpp; sourceTree = "<group>"; };
-		F1B2179D1CA46673009CE482 /* SocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketManager.h; sourceTree = "<group>"; };
 		F1E2A19E1CAD9D50007F368E /* Curl_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Curl_C.h; sourceTree = "<group>"; };
 		F1E2A19F1CAD9D5E007F368E /* Curl_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Curl_C.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -196,51 +121,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F12965D51CAAF67C00923D1D /* mlib */ = {
-			isa = PBXGroup;
-			children = (
-				F14841711CAE85D7000931A6 /* ios */,
-				F16680601CAD4D5100317B7A /* mlib_socket.cpp */,
-				F16680611CAD4D5100317B7A /* mlib_socket.h */,
-				F1A990C51CABFCD500BD4241 /* mlib_ccext_helpers.h */,
-				F1A990C61CABFCD500BD4241 /* mlib_ccext.h */,
-				F12965DB1CAAF68900923D1D /* mlib_assert.h */,
-				F12965DC1CAAF68900923D1D /* mlib_buffer.cpp */,
-				F12965DD1CAAF68900923D1D /* mlib_buffer.h */,
-				F12965DE1CAAF68900923D1D /* mlib_event.cpp */,
-				F12965DF1CAAF68900923D1D /* mlib_event.h */,
-				F12965E01CAAF68900923D1D /* mlib_exception.cpp */,
-				F12965E11CAAF68900923D1D /* mlib_exception.h */,
-				F12965E21CAAF68900923D1D /* mlib_helpers.h */,
-				F12965E31CAAF68900923D1D /* mlib_http.cpp */,
-				F12965E41CAAF68900923D1D /* mlib_http.h */,
-				F12965E71CAAF68900923D1D /* mlib_log.cpp */,
-				F12965E81CAAF68900923D1D /* mlib_log.h */,
-				F12965E91CAAF68900923D1D /* mlib_md5.cpp */,
-				F12965EA1CAAF68900923D1D /* mlib_md5.h */,
-				F12965EB1CAAF68900923D1D /* mlib_shared_queue.cpp */,
-				F12965EC1CAAF68900923D1D /* mlib_shared_queue.h */,
-				F12965ED1CAAF68900923D1D /* mlib_task.cpp */,
-				F12965EE1CAAF68900923D1D /* mlib_task.h */,
-				F12965EF1CAAF68900923D1D /* mlib_thread.h */,
-				F12965F01CAAF68900923D1D /* mlib_utils.cpp */,
-				F12965F11CAAF68900923D1D /* mlib_utils.h */,
-				F12965F21CAAF68900923D1D /* mlib_version_number.cpp */,
-				F12965F31CAAF68900923D1D /* mlib_version_number.h */,
-				F12965F41CAAF68900923D1D /* mlib.h */,
-			);
-			name = mlib;
-			sourceTree = "<group>";
-		};
-		F13B07511CAC1DB00072FED9 /* Test_NewNetWork */ = {
-			isa = PBXGroup;
-			children = (
-				F13B07521CAC1DFE0072FED9 /* NewNetWork_C.cpp */,
-				F13B07531CAC1DFE0072FED9 /* NewNetWork_C.h */,
-			);
-			name = Test_NewNetWork;
-			sourceTree = "<group>";
-		};
 		F14841511CAE2EEA000931A6 /* Test_Socket */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,50 +130,11 @@
 			name = Test_Socket;
 			sourceTree = "<group>";
 		};
-		F14841591CAE78CE000931A6 /* HttpNetWork */ = {
-			isa = PBXGroup;
-			children = (
-				F148415A1CAE78CE000931A6 /* LHttpErrorHandler.cpp */,
-				F148415B1CAE78CE000931A6 /* LHttpErrorHandler.h */,
-				F148415C1CAE78CE000931A6 /* LHttpRequest.cpp */,
-				F148415D1CAE78CE000931A6 /* LHttpRequest.h */,
-				F148415E1CAE78CE000931A6 /* LMessageCenter.cpp */,
-				F148415F1CAE78CE000931A6 /* LMessageCenter.h */,
-			);
-			path = HttpNetWork;
-			sourceTree = "<group>";
-		};
-		F14841631CAE791C000931A6 /* SocketNetWork */ = {
-			isa = PBXGroup;
-			children = (
-				F14841641CAE791C000931A6 /* LSocketErrorHandler.cpp */,
-				F14841651CAE791C000931A6 /* LSocketErrorHandler.h */,
-				F14841661CAE791C000931A6 /* LSocketRequest.cpp */,
-				F14841671CAE791C000931A6 /* LSocketRequest.h */,
-				F14841681CAE791C000931A6 /* LSocketCenter.cpp */,
-				F14841691CAE791C000931A6 /* LSocketCenter.h */,
-			);
-			path = SocketNetWork;
-			sourceTree = "<group>";
-		};
-		F14841711CAE85D7000931A6 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				F14841731CAE85D7000931A6 /* mlib_thread.mm */,
-			);
-			name = ios;
-			path = mlib/ios;
-			sourceTree = "<group>";
-		};
 		F1B217241CA462A3009CE482 = {
 			isa = PBXGroup;
 			children = (
 				F148416F1CAE8599000931A6 /* libz.tbd */,
 				F148416D1CAE84A9000931A6 /* libcurl.a */,
-				F14841631CAE791C000931A6 /* SocketNetWork */,
-				F14841591CAE78CE000931A6 /* HttpNetWork */,
-				F12965D51CAAF67C00923D1D /* mlib */,
-				F1B217951CA46673009CE482 /* network */,
 				F1B2173D1CA46337009CE482 /* autoreleasePool */,
 				F1B217481CA46337009CE482 /* hash */,
 				F1B2174B1CA46337009CE482 /* jsoncpp */,
@@ -318,7 +159,6 @@
 			children = (
 				F14841511CAE2EEA000931A6 /* Test_Socket */,
 				F1E2A19D1CAD9D30007F368E /* Test_Curl */,
-				F13B07511CAC1DB00072FED9 /* Test_NewNetWork */,
 				F1B217941CA4640F009CE482 /* Test_Xml */,
 				F1B217931CA46401009CE482 /* Test_Sqlite */,
 				F1B217921CA463F3009CE482 /* Test_Object */,
@@ -505,22 +345,6 @@
 			name = Test_Xml;
 			sourceTree = "<group>";
 		};
-		F1B217951CA46673009CE482 /* network */ = {
-			isa = PBXGroup;
-			children = (
-				F108B6BD1CA7CE8D003F0455 /* SocketBuffer.cpp */,
-				F108B6BE1CA7CE8D003F0455 /* SocketBuffer.h */,
-				F108B6BF1CA7CE8D003F0455 /* SocketMessage.cpp */,
-				F108B6C01CA7CE8D003F0455 /* SocketMessage.h */,
-				F108B6C21CA7CE8D003F0455 /* SocketConst.h */,
-				F1B2179A1CA46673009CE482 /* SocketClient.cpp */,
-				F1B2179B1CA46673009CE482 /* SocketClient.h */,
-				F1B2179C1CA46673009CE482 /* SocketManager.cpp */,
-				F1B2179D1CA46673009CE482 /* SocketManager.h */,
-			);
-			path = network;
-			sourceTree = "<group>";
-		};
 		F1E2A19D1CAD9D30007F368E /* Test_Curl */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,52 +410,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F12965FD1CAAF68900923D1D /* mlib_md5.cpp in Sources */,
-				F148416C1CAE791C000931A6 /* LSocketCenter.cpp in Sources */,
 				F1B217701CA46337009CE482 /* tinyxml2.cpp in Sources */,
-				F14841611CAE78CE000931A6 /* LHttpRequest.cpp in Sources */,
-				F14841601CAE78CE000931A6 /* LHttpErrorHandler.cpp in Sources */,
 				F1B217311CA462A3009CE482 /* main.cpp in Sources */,
 				F1B2176D1CA46337009CE482 /* json_writer.cpp in Sources */,
-				F12966011CAAF68900923D1D /* mlib_version_number.cpp in Sources */,
-				F13B07541CAC1DFE0072FED9 /* NewNetWork_C.cpp in Sources */,
 				F1B217861CA46350009CE482 /* Function.cpp in Sources */,
-				F12965F81CAAF68900923D1D /* mlib_event.cpp in Sources */,
-				F148416B1CAE791C000931A6 /* LSocketRequest.cpp in Sources */,
 				F1B217681CA46337009CE482 /* ccCArray.cpp in Sources */,
 				F1B2176B1CA46337009CE482 /* json_reader.cpp in Sources */,
-				F12965FE1CAAF68900923D1D /* mlib_shared_queue.cpp in Sources */,
 				F1B217661CA46337009CE482 /* CCArray.cpp in Sources */,
 				F14841561CAE2F57000931A6 /* Socket_C.cpp in Sources */,
 				F1B217871CA46350009CE482 /* Hash_C.cpp in Sources */,
-				F148416A1CAE791C000931A6 /* LSocketErrorHandler.cpp in Sources */,
 				F1B217841CA46350009CE482 /* ClassA.cpp in Sources */,
 				F1B217881CA46350009CE482 /* MI_C.cpp in Sources */,
-				F108B6C41CA7CE8D003F0455 /* SocketMessage.cpp in Sources */,
 				F1B2176F1CA46337009CE482 /* CString.cpp in Sources */,
 				F1B217671CA46337009CE482 /* CCAutoreleasePool.cpp in Sources */,
-				F108B6C31CA7CE8D003F0455 /* SocketBuffer.cpp in Sources */,
-				F16680621CAD4D5100317B7A /* mlib_socket.cpp in Sources */,
-				F12965F91CAAF68900923D1D /* mlib_exception.cpp in Sources */,
 				F1B217891CA46350009CE482 /* Object.cpp in Sources */,
 				F1B2178A1CA46350009CE482 /* Sqlite3_C.cpp in Sources */,
 				F1B2176C1CA46337009CE482 /* json_value.cpp in Sources */,
-				F1B217A21CA46673009CE482 /* SocketClient.cpp in Sources */,
 				F1B217831CA46350009CE482 /* AutoPool_C.cpp in Sources */,
 				F1B217691CA46337009CE482 /* CCObject.cpp in Sources */,
 				F1E2A1A01CAD9D5E007F368E /* Curl_C.cpp in Sources */,
-				F12966001CAAF68900923D1D /* mlib_utils.cpp in Sources */,
 				F1B2176A1CA46337009CE482 /* CCZone.cpp in Sources */,
-				F1B217A31CA46673009CE482 /* SocketManager.cpp in Sources */,
-				F12965F71CAAF68900923D1D /* mlib_buffer.cpp in Sources */,
-				F12965FC1CAAF68900923D1D /* mlib_log.cpp in Sources */,
-				F14841741CAE85D8000931A6 /* mlib_thread.mm in Sources */,
-				F12965FF1CAAF68900923D1D /* mlib_task.cpp in Sources */,
-				F14841621CAE78CE000931A6 /* LMessageCenter.cpp in Sources */,
 				F1B2178B1CA46350009CE482 /* Xml_C.cpp in Sources */,
 				F1B2176E1CA46337009CE482 /* sqlite3.c in Sources */,
 				F1B217851CA46350009CE482 /* CString.cpp in Sources */,
-				F12965FA1CAAF68900923D1D /* mlib_http.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
