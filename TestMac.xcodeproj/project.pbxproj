@@ -47,6 +47,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F11B6C9E1CE4650500AF6CA9 /* Stl_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stl_C.h; sourceTree = "<group>"; };
+		F12C56921D82B6B700C3BD2C /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utlist.h; path = list/utlist.h; sourceTree = "<group>"; };
 		F14841521CAE2F0B000931A6 /* Socket_C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Socket_C.h; path = Test_Socket/Socket_C.h; sourceTree = "<group>"; };
 		F14841551CAE2F57000931A6 /* Socket_C.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Socket_C.cpp; path = Test_Socket/Socket_C.cpp; sourceTree = "<group>"; };
 		F148416D1CAE84A9000931A6 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
@@ -63,7 +65,6 @@
 		F1B217451CA46337009CE482 /* CCObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCObject.h; sourceTree = "<group>"; };
 		F1B217461CA46337009CE482 /* CCZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCZone.cpp; sourceTree = "<group>"; };
 		F1B217471CA46337009CE482 /* CCZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCZone.h; sourceTree = "<group>"; };
-		F1B217491CA46337009CE482 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		F1B2174A1CA46337009CE482 /* uthash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uthash.h; sourceTree = "<group>"; };
 		F1B2174D1CA46337009CE482 /* autolink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autolink.h; sourceTree = "<group>"; };
 		F1B2174E1CA46337009CE482 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -121,6 +122,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F11B6C9D1CE464EB00AF6CA9 /* Test_Stl */ = {
+			isa = PBXGroup;
+			children = (
+				F11B6C9E1CE4650500AF6CA9 /* Stl_C.h */,
+			);
+			name = Test_Stl;
+			sourceTree = "<group>";
+		};
+		F12C56911D82B60200C3BD2C /* list */ = {
+			isa = PBXGroup;
+			children = (
+				F12C56921D82B6B700C3BD2C /* utlist.h */,
+			);
+			name = list;
+			sourceTree = "<group>";
+		};
 		F14841511CAE2EEA000931A6 /* Test_Socket */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +150,7 @@
 		F1B217241CA462A3009CE482 = {
 			isa = PBXGroup;
 			children = (
+				F12C56911D82B60200C3BD2C /* list */,
 				F148416F1CAE8599000931A6 /* libz.tbd */,
 				F148416D1CAE84A9000931A6 /* libcurl.a */,
 				F1B2173D1CA46337009CE482 /* autoreleasePool */,
@@ -157,6 +175,7 @@
 		F1B2172F1CA462A3009CE482 /* TestMac */ = {
 			isa = PBXGroup;
 			children = (
+				F11B6C9D1CE464EB00AF6CA9 /* Test_Stl */,
 				F14841511CAE2EEA000931A6 /* Test_Socket */,
 				F1E2A19D1CAD9D30007F368E /* Test_Curl */,
 				F1B217941CA4640F009CE482 /* Test_Xml */,
@@ -193,7 +212,6 @@
 		F1B217481CA46337009CE482 /* hash */ = {
 			isa = PBXGroup;
 			children = (
-				F1B217491CA46337009CE482 /* Header.h */,
 				F1B2174A1CA46337009CE482 /* uthash.h */,
 			);
 			path = hash;
@@ -523,6 +541,7 @@
 		F1B217351CA462A3009CE482 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -534,6 +553,7 @@
 		F1B217361CA462A3009CE482 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
